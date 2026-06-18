@@ -1,0 +1,46 @@
+name: Phase 1 build
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  phase1:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install host packages
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libc6-i386 lib32z1 cpio file patch bc bison flex mtd-utils python3
+
+      - name: Fetch source and toolchain
+        run: make phase1-fetch
+
+      - name: Build initramfs
+        run: make phase1-initramfs
+
+      - name: Build downstream kernel
+        run: make phase1-kernel
+
+      - name: Build recovery candidate
+        run: make phase1-recovery
+
+      - name: Verify artifacts
+        run: make phase1-verify
+
+      - name: Upload Phase 1 artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: is01-phase1-downstream-kernel
+          path: |
+            build/phase1/SHA256SUMS
+            build/phase1/initramfs/mininit
+            build/phase1/initramfs/initramfs.cpio
+            build/phase1/initramfs/initramfs.cpio.gz
+            build/phase1/recovery/phase1-boot.img
+            build/phase1/recovery/phase1-recovery.img
+            build/kernel-out/arch/arm/boot/zImage

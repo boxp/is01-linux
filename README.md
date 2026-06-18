@@ -25,4 +25,11 @@ au/Sharp IS01 で Linux userspace を動かし、最終的に Codex CLI、SSH cl
 make check
 make lint
 make fmt
+make phase1-fetch
+make phase1-initramfs
+make phase1-kernel
+make phase1-recovery
+make phase1-verify
 ```
+
+`make phase1-recovery` creates a recovery-partition candidate under `build/phase1/recovery/` for manual device testing. The repository does not run `flash_image` or write to the IS01.

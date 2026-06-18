@@ -21,8 +21,24 @@ else
   fail "shell syntax check failed"
 fi
 
+if printf '%s\n' "$committable_files" | grep -E '\.py$' | while IFS= read -r script; do python3 -m py_compile "$script" || exit 1; done; then
+  :
+else
+  fail "python syntax check failed"
+fi
+
 if printf '%s\n' "$committable_files" | grep -E '^(docs|research|plans)(/|$)' >/dev/null 2>&1; then
   fail "project documentation belongs in Obsidian, not this repository"
+fi
+
+if printf '%s\n' "$committable_files" | grep -E '^scripts/.*\.sh$' | while IFS= read -r script; do
+  if grep -nE 'flash_image|dd[[:space:]].*of=/dev/mtd|adb[[:space:]]+shell.*flash' "$script" >/dev/null 2>&1; then
+    grep -n 'PHASE1_MANUAL_FLASH_ONLY' "$script" >/dev/null 2>&1 || exit 1
+  fi
+done; then
+  :
+else
+  fail "dangerous device-write helpers must be manual-checklist only"
 fi
 
 if printf '%s\n' "$committable_files" | while IFS= read -r path; do

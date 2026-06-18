@@ -1,0 +1,25 @@
+diff --git a/kernel/timeconst.pl b/kernel/timeconst.pl
+index 9e136c5..95a18e6 100644
+--- a/kernel/timeconst.pl
++++ b/kernel/timeconst.pl
+@@ -370,7 +370,7 @@ if ($hz eq '--can') {
+ 	}
+ 
+ 	@val = @{$canned_values{$hz}};
+-	if (!defined(@val)) {
++	if (!@val) {
+ 		@val = compute_values($hz);
+ 	}
+ 	output($hz, @val);
+diff --git a/include/sound/soc-dai.h b/include/sound/soc-dai.h
+index 06f88a2..ed2ab0d 100644
+--- a/include/sound/soc-dai.h
++++ b/include/sound/soc-dai.h
+@@ -211,7 +211,6 @@ struct snd_soc_dai {
+ 
+ 	/* DAI runtime info */
+ 	struct snd_pcm_runtime *runtime;
+-	struct snd_soc_codec *codec;
+ 	unsigned int active;
+ 	unsigned char pop_wait:1;
+ 	void *dma_data;
