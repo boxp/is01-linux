@@ -19,8 +19,10 @@ _start:
 	bl paint_framebuffer
 
 	mov r0, r4
-	ldr r1, =done_message
+	ldr r1, =reboot_message
 	bl write_string
+
+	bl sleep_then_reboot
 
 pause_loop:
 	mov r7, #29
@@ -96,6 +98,24 @@ framebuffer_write_failed:
 	bl write_string
 	pop {pc}
 
+sleep_then_reboot:
+	ldr r0, =reboot_delay
+	mov r1, #0
+	ldr r7, =162
+	svc #0
+
+	ldr r0, =0xfee1dead
+	ldr r1, =0x28121969
+	ldr r2, =0x01234567
+	mov r3, #0
+	ldr r7, =88
+	svc #0
+
+	mov r0, r4
+	ldr r1, =reboot_fail_message
+	bl write_string
+	b pause_loop
+
 	.section .rodata
 console_path:
 	.asciz "/dev/console"
@@ -122,11 +142,23 @@ fb_fail_message_text:
 	.ascii "is01 phase1 mininit: framebuffer paint failed\n"
 fb_fail_message_end:
 	.align 2
-done_message:
-	.word done_message_end - done_message_text
-done_message_text:
-	.ascii "is01 phase1 mininit: waiting forever\n"
-done_message_end:
+reboot_message:
+	.word reboot_message_end - reboot_message_text
+reboot_message_text:
+	.ascii "is01 phase1 mininit: rebooting in 20 seconds\n"
+reboot_message_end:
+	.align 2
+reboot_fail_message:
+	.word reboot_fail_message_end - reboot_fail_message_text
+reboot_fail_message_text:
+	.ascii "is01 phase1 mininit: reboot syscall failed; waiting forever\n"
+reboot_fail_message_end:
+
+	.section .data
+	.align 2
+reboot_delay:
+	.word 20
+	.word 0
 
 	.section .bss
 	.align 4
