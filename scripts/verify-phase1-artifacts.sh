@@ -17,6 +17,7 @@ test -s build/phase1/recovery/phase1-boot.img || fail 'missing phase1-boot.img'
 test -s build/phase1/recovery/phase1-recovery.img || fail 'missing phase1-recovery.img'
 
 file build/phase1/initramfs/mininit | grep -E 'ELF 32-bit.*ARM' >/dev/null || fail 'mininit is not an ARM ELF'
+strings build/phase1/initramfs/mininit | grep 'rebooting in 20 seconds' >/dev/null || fail 'mininit is missing timed reboot signal'
 gzip -t build/phase1/initramfs/initramfs.cpio.gz
 cpio_listing=$(gzip -dc build/phase1/initramfs/initramfs.cpio.gz | cpio -it 2>/dev/null)
 printf '%s\n' "$cpio_listing" | grep '^/dev/fb0$' >/dev/null || fail 'initramfs is missing /dev/fb0'
