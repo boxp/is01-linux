@@ -1,0 +1,24 @@
+# Local environment
+.env
+.env.*
+!.env.example
+
+# Build output and device dumps
+/build/
+/dist/
+/out/
+/tmp/
+/logs/
+/artifacts/
+*.img
+*.bin
+*.dump
+*.tar
+*.tar.gz
+*.zip
+
+# Editor noise
+.DS_Store
+*.swp
+*~
+
