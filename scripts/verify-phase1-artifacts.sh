@@ -18,6 +18,9 @@ test -s build/phase1/recovery/phase1-recovery.img || fail 'missing phase1-recove
 
 file build/phase1/initramfs/mininit | grep -E 'ELF 32-bit.*ARM' >/dev/null || fail 'mininit is not an ARM ELF'
 gzip -t build/phase1/initramfs/initramfs.cpio.gz
+cpio_listing=$(gzip -dc build/phase1/initramfs/initramfs.cpio.gz | cpio -it 2>/dev/null)
+printf '%s\n' "$cpio_listing" | grep '^/dev/fb0$' >/dev/null || fail 'initramfs is missing /dev/fb0'
+printf '%s\n' "$cpio_listing" | grep '^/dev/graphics/fb0$' >/dev/null || fail 'initramfs is missing /dev/graphics/fb0'
 file build/kernel-out/arch/arm/boot/zImage | grep 'Linux kernel ARM boot executable zImage' >/dev/null || fail 'zImage is not an ARM zImage'
 file build/phase1/recovery/phase1-boot.img | grep 'Android bootimg' >/dev/null || fail 'phase1 boot image is not an Android bootimg'
 file build/phase1/recovery/phase1-recovery.img | grep 'UBI image' >/dev/null || fail 'phase1 recovery image is not a UBI image'
