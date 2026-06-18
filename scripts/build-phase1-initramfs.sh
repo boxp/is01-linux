@@ -23,7 +23,10 @@ mkdir -p "$out_dir"
 
 cat >"$list" <<EOF
 dir /dev 0755 0 0
+dir /dev/graphics 0755 0 0
 nod /dev/console 0600 0 0 c 5 1
+nod /dev/fb0 0600 0 0 c 29 0
+nod /dev/graphics/fb0 0600 0 0 c 29 0
 file /init $repo_root/$out_dir/mininit 0755 0 0
 EOF
 
