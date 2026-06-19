@@ -42,5 +42,6 @@ jobs:
             build/phase1/initramfs/initramfs.cpio
             build/phase1/initramfs/initramfs.cpio.gz
             build/phase1/recovery/phase1-boot.img
+            build/phase1/recovery/phase1-boot-volume.bin
             build/phase1/recovery/phase1-recovery.img
             build/kernel-out/arch/arm/boot/zImage
