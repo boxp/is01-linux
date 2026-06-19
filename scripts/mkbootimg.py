@@ -26,9 +26,15 @@ def main() -> int:
     parser.add_argument("--second-addr", type=parse_u32, required=True)
     parser.add_argument("--tags-addr", type=parse_u32, required=True)
     parser.add_argument("--page-size", type=parse_u32, required=True)
+    parser.add_argument(
+        "--image-align-size",
+        type=parse_u32,
+        help="alignment used between Android boot image sections; defaults to page size",
+    )
     parser.add_argument("--cmdline", required=True)
     parser.add_argument("--name", default="")
     args = parser.parse_args()
+    image_align_size = args.image_align_size or args.page_size
 
     kernel = Path(args.kernel).read_bytes()
     ramdisk = Path(args.ramdisk).read_bytes()
@@ -64,7 +70,7 @@ def main() -> int:
         *id_words,
     )
 
-    output = pad(header, args.page_size) + pad(kernel, args.page_size) + pad(ramdisk, args.page_size)
+    output = pad(header, image_align_size) + pad(kernel, image_align_size) + pad(ramdisk, image_align_size)
     Path(args.output).write_bytes(output)
     return 0
 

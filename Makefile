@@ -1,6 +1,6 @@
 SHELL := /bin/sh
 
-.PHONY: help check lint fmt phase1-fetch phase1-initramfs phase1-kernel phase1-recovery phase1-verify phase1-repack-stock-recovery phase1-repack-stock-verify phase1-stock-kernel-custom-initramfs-recovery phase1-stock-kernel-custom-initramfs-verify phase1-stock-kernel-raw-initramfs-recovery phase1-stock-kernel-raw-initramfs-verify phase2-initramfs phase2-initramfs-verify phase2-recovery phase2-verify phase2-buildroot-fetch phase2-buildroot-rootfs phase2-buildroot-rootfs-verify phase2-buildroot-recovery phase2-buildroot-recovery-verify
+.PHONY: help check lint fmt phase1-fetch phase1-initramfs phase1-kernel phase1-recovery phase1-verify phase1-repack-stock-recovery phase1-repack-stock-verify phase1-stock-kernel-custom-initramfs-recovery phase1-stock-kernel-custom-initramfs-verify phase1-stock-kernel-raw-initramfs-recovery phase1-stock-kernel-raw-initramfs-verify phase2-initramfs phase2-initramfs-verify phase2-recovery phase2-verify phase2-buildroot-fetch phase2-buildroot-rootfs phase2-buildroot-rootfs-verify phase2-buildroot-recovery phase2-buildroot-recovery-verify phase3-mainline-fetch phase3-initramfs phase3-initramfs-verify phase3-mainline-config-verify phase3-mainline-boot phase3-mainline-boot-verify phase3-mainline-recovery
 
 help:
 	@printf '%s\n' \
@@ -27,7 +27,14 @@ help:
 		'  make phase2-buildroot-rootfs  Build the Phase 2 BusyBox/Dropbear rootfs' \
 		'  make phase2-buildroot-rootfs-verify  Verify Phase 2 Buildroot rootfs' \
 		'  make phase2-buildroot-recovery  Build the Phase 2 Buildroot recovery candidate' \
-		'  make phase2-buildroot-recovery-verify  Verify Phase 2 Buildroot recovery artifacts'
+		'  make phase2-buildroot-recovery-verify  Verify Phase 2 Buildroot recovery artifacts' \
+		'  make phase3-mainline-fetch  Fetch pinned mainline Linux source' \
+		'  make phase3-initramfs  Build the Phase 3 reboot-signal initramfs' \
+		'  make phase3-initramfs-verify  Verify Phase 3 initramfs contents' \
+		'  make phase3-mainline-config-verify  Verify Phase 3 mainline config inputs' \
+		'  make phase3-mainline-boot  Build the Phase 3 mainline Android boot payload' \
+		'  make phase3-mainline-boot-verify  Verify Phase 3 mainline boot payload' \
+		'  make phase3-mainline-recovery  Build the Phase 3 manual-test recovery candidate'
 
 check: lint
 
@@ -101,3 +108,24 @@ phase2-buildroot-recovery:
 
 phase2-buildroot-recovery-verify:
 	@./scripts/verify-phase2-buildroot-recovery.sh
+
+phase3-mainline-fetch:
+	@./scripts/fetch-mainline-kernel.sh
+
+phase3-initramfs:
+	@./scripts/build-phase3-initramfs.sh
+
+phase3-initramfs-verify:
+	@./scripts/verify-phase3-initramfs.sh
+
+phase3-mainline-config-verify:
+	@./scripts/verify-phase3-mainline-config.sh
+
+phase3-mainline-boot:
+	@./scripts/build-phase3-mainline-boot.sh
+
+phase3-mainline-boot-verify:
+	@./scripts/verify-phase3-mainline-boot.sh
+
+phase3-mainline-recovery:
+	@./scripts/build-phase3-mainline-recovery.sh
