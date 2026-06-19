@@ -32,8 +32,17 @@ PY
 
 cpio -it <"$cpio_img" >"$listing" 2>/dev/null
 
+has_entry() {
+  entry=$1
+  grep -Fx "$entry" "$listing" >/dev/null && return 0
+  case "$entry" in
+  /*) grep -Fx "${entry#/}" "$listing" >/dev/null && return 0 ;;
+  esac
+  return 1
+}
+
 for entry in /init /dev /dev/console /dev/null /proc /sys /tmp; do
-  grep -Fx "$entry" "$listing" >/dev/null || fail "initramfs is missing $entry"
+  has_entry "$entry" || fail "initramfs is missing $entry"
 done
 
 grep -F 'is01 phase3 mainline minimal init' "$init" >/dev/null || fail 'phase3 init banner is missing'
