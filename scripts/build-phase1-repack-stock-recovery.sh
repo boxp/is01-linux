@@ -11,6 +11,7 @@ fi
 
 out_dir='build/phase1/repack-stock'
 stock_boot="$out_dir/stock-recovery-boot.img"
+ubi_payload="$out_dir/stock-recovery-volume.bin"
 ubi_img="$out_dir/phase1-stock-repack-recovery.ubi"
 recovery_img="$out_dir/phase1-stock-repack-recovery.img"
 ubinize_cfg="$out_dir/ubinize.cfg"
@@ -45,6 +46,7 @@ print(struct.unpack_from(">I", data, 24)[0])
 PY
 )
 
+./scripts/extract-ubi-volume.py --vol-id 0 "$stock_recovery" "$ubi_payload"
 ./scripts/extract-ubi-volume.py --vol-id 0 --trim-android-bootimg "$stock_recovery" "$stock_boot"
 file "$stock_boot" | grep 'Android bootimg' >/dev/null || {
   file "$stock_boot" >&2
@@ -52,17 +54,22 @@ file "$stock_boot" | grep 'Android bootimg' >/dev/null || {
   exit 1
 }
 
+[ "$(wc -c <"$ubi_payload")" -eq 9547776 ] || {
+  printf 'error: stock recovery UBI volume payload size does not match stock recovery\n' >&2
+  exit 1
+}
+
 cat >"$ubinize_cfg" <<EOF
 [boot]
 mode=ubi
-image=$stock_boot
+image=$ubi_payload
 vol_id=0
 vol_type=dynamic
 vol_name=boot
 vol_flags=autoresize
 EOF
 
-ubinize -o "$ubi_img" -m 256 -p 128KiB -O 256 -Q "$image_seq" "$ubinize_cfg"
+ubinize -o "$ubi_img" -m 2048 -s 256 -p 128KiB -O 256 -Q "$image_seq" "$ubinize_cfg"
 
 python3 - "$ubi_img" "$recovery_img" "$partition_size" <<'PY'
 from pathlib import Path
@@ -80,4 +87,4 @@ PY
 file "$stock_recovery"
 file "$stock_boot"
 file "$recovery_img"
-sha256sum "$stock_recovery" "$stock_boot" "$recovery_img"
+sha256sum "$stock_recovery" "$stock_boot" "$ubi_payload" "$recovery_img"
