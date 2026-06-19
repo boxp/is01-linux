@@ -1,0 +1,28 @@
+/dts-v1/;
+
+/ {
+	model = "Sharp IS01 Phase 3 mainline minimal boot";
+	compatible = "sharp,is01", "qcom,qsd8x50";
+	#address-cells = <1>;
+	#size-cells = <1>;
+
+	chosen {
+		bootargs = "rdinit=/init init=/init root=/dev/ram0 rw panic=20 ignore_loglevel";
+	};
+
+	memory@20000000 {
+		device_type = "memory";
+		reg = <0x20000000 0x05800000>;
+	};
+
+	cpus {
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		cpu@0 {
+			device_type = "cpu";
+			compatible = "qcom,scorpion";
+			reg = <0>;
+		};
+	};
+};

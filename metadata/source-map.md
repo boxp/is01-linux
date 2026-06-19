@@ -59,3 +59,16 @@ The Phase 1 build scripts use Android's prebuilt `arm-eabi-4.6` toolchain from A
 - local path: `build/toolchains/arm-eabi-4.6`
 
 The toolchain binaries are 32-bit Linux executables. On Ubuntu/GitHub Actions, install `libc6-i386` and `lib32z1` before running the kernel build.
+
+## Phase 3 mainline Linux source
+
+Phase 3 starts from a pinned longterm mainline Linux source archive and keeps the first observable signal independent of UART:
+
+- upstream page: <https://www.kernel.org/>
+- source archive: `linux-6.12.94.tar.xz`
+- source URL: `https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.12.94.tar.xz`
+- expected sha256: `e998a232b9418db3301cb58468e291a4f41d6ab8306029b30d991f56251dc8d2`
+- local download path: `build/sources/linux-6.12.94.tar.xz`
+- extracted path: `build/sources/linux-6.12.94`
+
+The Phase 3 initial device description is `board/is01/phase3/qcom-qsd8x50-is01.dts`. The first initramfs userspace signal is a 20-second delayed reboot from `/init`; UART discovery is treated as optional auxiliary work rather than a completion gate.
