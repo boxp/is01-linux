@@ -26,6 +26,7 @@ file build/kernel-out/arch/arm/boot/zImage | grep 'Linux kernel ARM boot executa
 file build/phase1/recovery/phase1-boot.img | grep 'Android bootimg' >/dev/null || fail 'phase1 boot image is not an Android bootimg'
 file build/phase1/recovery/phase1-recovery.img | grep 'UBI image' >/dev/null || fail 'phase1 recovery image is not a UBI image'
 [ "$(wc -c <build/phase1/recovery/phase1-recovery.img)" -eq 11534336 ] || fail 'phase1 recovery image size does not match mtd2'
+./scripts/test-ubi-volume-extract.sh
 
 mkdir -p build/phase1
 sha256sum \
