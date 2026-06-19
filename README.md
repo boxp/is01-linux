@@ -30,6 +30,10 @@ make phase1-initramfs
 make phase1-kernel
 make phase1-recovery
 make phase1-verify
+make phase1-repack-stock-recovery
+make phase1-repack-stock-verify
 ```
 
 `make phase1-recovery` creates a recovery-partition candidate under `build/phase1/recovery/` for manual device testing. The repository does not run `flash_image` or write to the IS01.
+
+`make phase1-repack-stock-recovery` extracts the `boot` UBI volume from a local stock `mtd2-recovery.img` backup and repacks it without changing the Android boot image payload. Set `STOCK_RECOVERY_IMG=/path/to/mtd2-recovery.img` when the backup is not in the default Obsidian vault path.
