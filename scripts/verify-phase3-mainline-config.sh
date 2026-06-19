@@ -23,6 +23,7 @@ grep -F 'CONFIG_ARCH_QCOM=y' "$fragment" >/dev/null || fail 'mainline fragment d
 grep -F 'CONFIG_ARM_APPENDED_DTB=y' "$fragment" >/dev/null || fail 'mainline fragment does not enable appended DTB'
 grep -F 'CONFIG_BLK_DEV_INITRD=y' "$fragment" >/dev/null || fail 'mainline fragment does not enable initrd'
 grep -F 'CONFIG_PANIC_TIMEOUT=20' "$fragment" >/dev/null || fail 'mainline fragment does not set panic timeout'
+grep -F 'CONFIG_KERNEL_XZ=y' "$fragment" >/dev/null || fail 'mainline fragment does not request xz kernel compression'
 grep -F 'rdinit=/init' "$fragment" >/dev/null || fail 'mainline fragment does not point to initramfs init'
 grep -F 'qcom,qsd8x50' "$dts" >/dev/null || fail 'DTS does not identify QSD8x50'
 grep -F 'panic=20' "$dts" >/dev/null || fail 'DTS does not carry non-UART reboot signal'

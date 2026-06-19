@@ -9,5 +9,7 @@ CONFIG_TMPFS=y
 CONFIG_PRINTK=y
 CONFIG_EARLY_PRINTK=y
 CONFIG_PANIC_TIMEOUT=20
+CONFIG_KERNEL_XZ=y
+# CONFIG_KERNEL_GZIP is not set
 CONFIG_CMDLINE="rdinit=/init init=/init root=/dev/ram0 rw panic=20 ignore_loglevel"
 CONFIG_CMDLINE_EXTEND=y
