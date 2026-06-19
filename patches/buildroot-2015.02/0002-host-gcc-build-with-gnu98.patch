@@ -1,0 +1,13 @@
+--- a/package/gcc/gcc.mk
++++ b/package/gcc/gcc.mk
+@@ -81,7 +81,8 @@ HOST_GCC_COMMON_CONF_OPTS = \
+ 
+ # Don't build documentation. It takes up extra space / build time,
+ # and sometimes needs specific makeinfo versions to work
+ HOST_GCC_COMMON_CONF_ENV = \
+-	MAKEINFO=missing
++	MAKEINFO=missing \
++	CXXFLAGS="$(HOST_CXXFLAGS) -std=gnu++98"
+ 
+ # http://gcc.gnu.org/bugzilla/show_bug.cgi?id=43810
+ # Workaround until it's fixed in 4.5.4 or later
