@@ -34,6 +34,8 @@ make phase1-repack-stock-recovery
 make phase1-repack-stock-verify
 make phase1-stock-kernel-custom-initramfs-recovery
 make phase1-stock-kernel-custom-initramfs-verify
+make phase1-stock-kernel-raw-initramfs-recovery
+make phase1-stock-kernel-raw-initramfs-verify
 ```
 
 `make phase1-recovery` creates a recovery-partition candidate under `build/phase1/recovery/` for manual device testing. The repository does not run `flash_image` or write to the IS01.
@@ -41,3 +43,5 @@ make phase1-stock-kernel-custom-initramfs-verify
 `make phase1-repack-stock-recovery` extracts the `boot` UBI volume from a local stock `mtd2-recovery.img` backup and repacks it without changing the Android boot image payload. Set `STOCK_RECOVERY_IMG=/path/to/mtd2-recovery.img` when the backup is not in the default Obsidian vault path.
 
 `make phase1-stock-kernel-custom-initramfs-recovery` builds a diagnostic recovery image that preserves the stock recovery kernel and Android boot header, replacing only the ramdisk with the Phase 1 initramfs. It requires a local stock `mtd2-recovery.img` backup and is intended to split kernel boot issues from initramfs/init issues.
+
+`make phase1-stock-kernel-raw-initramfs-recovery` is a follow-up diagnostic target that preserves the stock recovery kernel and Android boot header, but uses the IS01 boot image's 4096-byte section alignment and an uncompressed `newc` cpio ramdisk.

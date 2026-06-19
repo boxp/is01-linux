@@ -23,7 +23,7 @@ def pad(data, page_size):
     return data + (b"\0" * (align(len(data), page_size) - len(data)))
 
 
-def parse_bootimg(path):
+def parse_bootimg(path, image_align_size=None):
     data = path.read_bytes()
     if len(data) < HEADER_SIZE:
         fail(f"{path} is smaller than an Android boot image header")
@@ -49,31 +49,35 @@ def parse_bootimg(path):
     page_size = header["page_size"]
     if page_size == 0:
         fail(f"{path} has page_size=0")
+    if image_align_size is None:
+        image_align_size = page_size
+    if image_align_size <= 0:
+        fail(f"{path} has invalid image alignment: {image_align_size}")
 
-    cursor = page_size
+    cursor = align(HEADER_SIZE, image_align_size)
     kernel = data[cursor : cursor + header["kernel_size"]]
-    cursor += align(header["kernel_size"], page_size)
+    cursor += align(header["kernel_size"], image_align_size)
     ramdisk = data[cursor : cursor + header["ramdisk_size"]]
-    cursor += align(header["ramdisk_size"], page_size)
+    cursor += align(header["ramdisk_size"], image_align_size)
     second = data[cursor : cursor + header["second_size"]]
-    cursor += align(header["second_size"], page_size)
+    cursor += align(header["second_size"], image_align_size)
     dt = data[cursor : cursor + header["dt_size"]]
 
-    expected = page_size
+    expected = align(HEADER_SIZE, image_align_size)
     for size in (
         header["kernel_size"],
         header["ramdisk_size"],
         header["second_size"],
         header["dt_size"],
     ):
-        expected += align(size, page_size)
+        expected += align(size, image_align_size)
     if expected > len(data):
         fail(f"{path} header describes {expected} bytes, but file has {len(data)} bytes")
 
     return header, kernel, ramdisk, second, dt
 
 
-def build_bootimg(header, kernel, ramdisk, second, dt):
+def build_bootimg(header, kernel, ramdisk, second, dt, image_align_size):
     page_size = header["page_size"]
 
     image_id = hashlib.sha1()
@@ -105,11 +109,11 @@ def build_bootimg(header, kernel, ramdisk, second, dt):
     )
 
     return (
-        pad(packed_header, page_size)
-        + pad(kernel, page_size)
-        + pad(ramdisk, page_size)
-        + pad(second, page_size)
-        + pad(dt, page_size)
+        pad(packed_header, image_align_size)
+        + pad(kernel, image_align_size)
+        + pad(ramdisk, image_align_size)
+        + pad(second, image_align_size)
+        + pad(dt, image_align_size)
     )
 
 
@@ -121,15 +125,21 @@ def main():
     parser.add_argument("--kernel", type=Path)
     parser.add_argument("--ramdisk", type=Path)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument(
+        "--image-align-size",
+        type=int,
+        help="alignment used between Android boot image sections; defaults to header page_size",
+    )
     args = parser.parse_args()
 
-    header, kernel, ramdisk, second, dt = parse_bootimg(args.source)
+    header, kernel, ramdisk, second, dt = parse_bootimg(args.source, args.image_align_size)
     if args.kernel is not None:
         kernel = args.kernel.read_bytes()
     if args.ramdisk is not None:
         ramdisk = args.ramdisk.read_bytes()
 
-    output = build_bootimg(header, kernel, ramdisk, second, dt)
+    image_align_size = args.image_align_size or header["page_size"]
+    output = build_bootimg(header, kernel, ramdisk, second, dt, image_align_size)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     tmp_output = args.output.with_name(f".{args.output.name}.tmp.{os.getpid()}")
     try:

@@ -9,19 +9,20 @@ if [ -z "$stock_recovery" ]; then
   stock_recovery='/home/boxp/Documents/obsidian-headless/BOXP/Projects/is01/artifacts/backups/stock-20260618T142509Z/stock-20260618T142509Z/mtd2-recovery.img'
 fi
 
-out_dir='build/phase1/stock-kernel-custom-initramfs'
+out_dir='build/phase1/stock-kernel-raw-initramfs'
 stock_boot="$out_dir/stock-recovery-boot.img"
-boot_img="$out_dir/phase1-stock-kernel-custom-initramfs-boot.img"
-ubi_payload="$out_dir/phase1-stock-kernel-custom-initramfs-volume.bin"
-ubi_img="$out_dir/phase1-stock-kernel-custom-initramfs-recovery.ubi"
-recovery_img="$out_dir/phase1-stock-kernel-custom-initramfs-recovery.img"
+raw_ramdisk="$out_dir/phase1-raw-initramfs.img"
+boot_img="$out_dir/phase1-stock-kernel-raw-initramfs-boot.img"
+ubi_payload="$out_dir/phase1-stock-kernel-raw-initramfs-volume.bin"
+ubi_img="$out_dir/phase1-stock-kernel-raw-initramfs-recovery.ubi"
+recovery_img="$out_dir/phase1-stock-kernel-raw-initramfs-recovery.img"
 ubinize_cfg="$out_dir/ubinize.cfg"
 
-ramdisk='build/phase1/initramfs/initramfs.cpio.gz'
+ramdisk_cpio='build/phase1/initramfs/initramfs.cpio'
 partition_size=11534336
 volume_payload_size=9547776
 
-test -s "$ramdisk" || ./scripts/build-phase1-initramfs.sh
+test -s "$ramdisk_cpio" || ./scripts/build-phase1-initramfs.sh
 test -s "$stock_recovery" || {
   printf 'error: stock recovery image not found: %s\n' "$stock_recovery" >&2
   printf 'Set STOCK_RECOVERY_IMG=/path/to/mtd2-recovery.img when using a different backup.\n' >&2
@@ -52,7 +53,10 @@ PY
 )
 
 ./scripts/extract-ubi-volume.py --vol-id 0 --trim-android-bootimg --android-bootimg-align-size 4096 "$stock_recovery" "$stock_boot"
-./scripts/repack-android-bootimg.py --source "$stock_boot" --ramdisk "$ramdisk" --image-align-size 4096 --output "$boot_img"
+
+cp "$ramdisk_cpio" "$raw_ramdisk"
+
+./scripts/repack-android-bootimg.py --source "$stock_boot" --ramdisk "$raw_ramdisk" --image-align-size 4096 --output "$boot_img"
 
 python3 - "$boot_img" "$ubi_payload" "$volume_payload_size" <<'PY'
 from pathlib import Path
@@ -93,6 +97,7 @@ dst.write_bytes(data + (b"\xff" * (partition_size - len(data))))
 PY
 
 file "$stock_boot"
+file "$raw_ramdisk"
 file "$boot_img"
 file "$recovery_img"
-sha256sum "$stock_boot" "$ramdisk" "$boot_img" "$ubi_payload" "$recovery_img"
+sha256sum "$stock_boot" "$ramdisk_cpio" "$raw_ramdisk" "$boot_img" "$ubi_payload" "$recovery_img"
