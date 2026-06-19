@@ -1,6 +1,6 @@
 SHELL := /bin/sh
 
-.PHONY: help check lint fmt phase1-fetch phase1-initramfs phase1-kernel phase1-recovery phase1-verify phase1-repack-stock-recovery phase1-repack-stock-verify
+.PHONY: help check lint fmt phase1-fetch phase1-initramfs phase1-kernel phase1-recovery phase1-verify phase1-repack-stock-recovery phase1-repack-stock-verify phase1-stock-kernel-custom-initramfs-recovery phase1-stock-kernel-custom-initramfs-verify
 
 help:
 	@printf '%s\n' \
@@ -14,7 +14,9 @@ help:
 		'  make phase1-recovery   Build the manual-test recovery candidate' \
 		'  make phase1-verify     Verify generated Phase 1 artifacts' \
 		'  make phase1-repack-stock-recovery  Repack stock recovery without changing boot payload' \
-		'  make phase1-repack-stock-verify    Verify stock recovery repack artifacts'
+		'  make phase1-repack-stock-verify    Verify stock recovery repack artifacts' \
+		'  make phase1-stock-kernel-custom-initramfs-recovery  Build stock-kernel/custom-initramfs recovery candidate' \
+		'  make phase1-stock-kernel-custom-initramfs-verify    Verify stock-kernel/custom-initramfs artifacts'
 
 check: lint
 
@@ -49,3 +51,9 @@ phase1-repack-stock-recovery:
 
 phase1-repack-stock-verify:
 	@./scripts/verify-phase1-repack-stock.sh
+
+phase1-stock-kernel-custom-initramfs-recovery:
+	@./scripts/build-phase1-stock-kernel-custom-initramfs-recovery.sh
+
+phase1-stock-kernel-custom-initramfs-verify:
+	@./scripts/verify-phase1-stock-kernel-custom-initramfs.sh
