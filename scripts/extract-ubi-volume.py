@@ -30,6 +30,11 @@ def parse_args():
         action="store_true",
         help="trim extracted data to the Android boot image size from its header",
     )
+    parser.add_argument(
+        "--android-bootimg-align-size",
+        type=int,
+        help="alignment used between Android boot image sections; defaults to header page_size",
+    )
     parser.add_argument("ubi_image", type=Path)
     parser.add_argument("output", type=Path)
     return parser.parse_args()
@@ -97,7 +102,7 @@ def extract_volume(data, peb_size, vol_id):
     return b"".join(logical_blocks[lnum] for lnum in expected)
 
 
-def trim_android_bootimg(data):
+def trim_android_bootimg(data, image_align_size=None):
     if len(data) < 48 or data[:8] != b"ANDROID!":
         fail("extracted volume does not start with an Android boot image header")
     kernel_size = struct.unpack_from("<I", data, 8)[0]
@@ -107,11 +112,13 @@ def trim_android_bootimg(data):
     dt_size = struct.unpack_from("<I", data, 40)[0]
     if page_size == 0:
         fail("Android boot image header has page_size=0")
+    if image_align_size is None:
+        image_align_size = page_size
 
     def align(value):
-        return ((value + page_size - 1) // page_size) * page_size
+        return ((value + image_align_size - 1) // image_align_size) * image_align_size
 
-    image_size = page_size + align(kernel_size) + align(ramdisk_size) + align(second_size)
+    image_size = align(608) + align(kernel_size) + align(ramdisk_size) + align(second_size)
     if dt_size:
         image_size += align(dt_size)
     if image_size > len(data):
@@ -126,7 +133,7 @@ def main():
         fail(f"{args.ubi_image} is smaller than one PEB")
     volume = extract_volume(data, args.peb_size, args.vol_id)
     if args.trim_android_bootimg:
-        volume = trim_android_bootimg(volume)
+        volume = trim_android_bootimg(volume, args.android_bootimg_align_size)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     tmp_output = args.output.with_name(f".{args.output.name}.tmp.{os.getpid()}")
     try:
