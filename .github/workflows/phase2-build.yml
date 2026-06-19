@@ -1,0 +1,37 @@
+name: Phase 2 build
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  phase2:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install host packages
+        run: |
+          sudo apt-get -o Acquire::Retries=5 -o Acquire::http::Timeout=30 update
+          sudo apt-get -o Acquire::Retries=5 -o Acquire::http::Timeout=30 install -y libc6-i386 lib32z1 cpio file python3 gcc
+
+      - name: Fetch source and toolchain
+        run: make phase1-fetch
+
+      - name: Build Phase 2 initramfs
+        run: make phase2-initramfs
+
+      - name: Verify Phase 2 initramfs
+        run: make phase2-initramfs-verify
+
+      - name: Upload Phase 2 initramfs artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: is01-phase2-minimal-userspace-initramfs
+          path: |
+            build/phase2/initramfs/SHA256SUMS
+            build/phase2/initramfs/phase2-init
+            build/phase2/initramfs/initramfs.cpio
+            build/phase2/initramfs/initramfs.cpio.gz

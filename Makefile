@@ -1,6 +1,6 @@
 SHELL := /bin/sh
 
-.PHONY: help check lint fmt phase1-fetch phase1-initramfs phase1-kernel phase1-recovery phase1-verify phase1-repack-stock-recovery phase1-repack-stock-verify phase1-stock-kernel-custom-initramfs-recovery phase1-stock-kernel-custom-initramfs-verify phase1-stock-kernel-raw-initramfs-recovery phase1-stock-kernel-raw-initramfs-verify
+.PHONY: help check lint fmt phase1-fetch phase1-initramfs phase1-kernel phase1-recovery phase1-verify phase1-repack-stock-recovery phase1-repack-stock-verify phase1-stock-kernel-custom-initramfs-recovery phase1-stock-kernel-custom-initramfs-verify phase1-stock-kernel-raw-initramfs-recovery phase1-stock-kernel-raw-initramfs-verify phase2-initramfs phase2-initramfs-verify phase2-recovery phase2-verify
 
 help:
 	@printf '%s\n' \
@@ -18,7 +18,11 @@ help:
 		'  make phase1-stock-kernel-custom-initramfs-recovery  Build stock-kernel/custom-initramfs recovery candidate' \
 		'  make phase1-stock-kernel-custom-initramfs-verify    Verify stock-kernel/custom-initramfs artifacts' \
 		'  make phase1-stock-kernel-raw-initramfs-recovery  Build stock-kernel/raw-initramfs recovery candidate' \
-		'  make phase1-stock-kernel-raw-initramfs-verify    Verify stock-kernel/raw-initramfs artifacts'
+		'  make phase1-stock-kernel-raw-initramfs-verify    Verify stock-kernel/raw-initramfs artifacts' \
+		'  make phase2-initramfs  Build the Phase 2 minimal userspace initramfs' \
+		'  make phase2-initramfs-verify  Verify Phase 2 initramfs contents' \
+		'  make phase2-recovery  Build the Phase 2 manual-test recovery candidate' \
+		'  make phase2-verify    Verify generated Phase 2 artifacts'
 
 check: lint
 
@@ -65,3 +69,15 @@ phase1-stock-kernel-raw-initramfs-recovery:
 
 phase1-stock-kernel-raw-initramfs-verify:
 	@./scripts/verify-phase1-stock-kernel-raw-initramfs.sh
+
+phase2-initramfs:
+	@./scripts/build-phase2-initramfs.sh
+
+phase2-initramfs-verify:
+	@./scripts/verify-phase2-initramfs.sh
+
+phase2-recovery:
+	@./scripts/build-phase2-recovery.sh
+
+phase2-verify:
+	@./scripts/verify-phase2-artifacts.sh
