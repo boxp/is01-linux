@@ -15,7 +15,7 @@ jobs:
       - name: Install host packages
         run: |
           sudo apt-get -o Acquire::Retries=5 -o Acquire::http::Timeout=30 update
-          sudo apt-get -o Acquire::Retries=5 -o Acquire::http::Timeout=30 install -y libc6-i386 lib32z1 cpio file python3 gcc
+          sudo apt-get -o Acquire::Retries=5 -o Acquire::http::Timeout=30 install -y build-essential libc6-i386 lib32z1 cpio file patch python3 git ca-certificates wget bzip2 gzip unzip rsync
 
       - name: Fetch source and toolchain
         run: make phase1-fetch
@@ -26,6 +26,12 @@ jobs:
       - name: Verify Phase 2 initramfs
         run: make phase2-initramfs-verify
 
+      - name: Verify Phase 2 Buildroot config
+        run: make phase2-buildroot-rootfs-verify
+
+      - name: Build Phase 2 Buildroot rootfs
+        run: make phase2-buildroot-rootfs
+
       - name: Upload Phase 2 initramfs artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -35,3 +41,11 @@ jobs:
             build/phase2/initramfs/phase2-init
             build/phase2/initramfs/initramfs.cpio
             build/phase2/initramfs/initramfs.cpio.gz
+
+      - name: Upload Phase 2 Buildroot rootfs artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: is01-phase2-buildroot-rootfs
+          path: |
+            build/phase2/buildroot/SHA256SUMS
+            build/phase2/buildroot/images/rootfs.cpio

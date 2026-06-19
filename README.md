@@ -40,6 +40,10 @@ make phase2-initramfs
 make phase2-initramfs-verify
 make phase2-recovery
 make phase2-verify
+make phase2-buildroot-rootfs
+make phase2-buildroot-rootfs-verify
+make phase2-buildroot-recovery
+make phase2-buildroot-recovery-verify
 ```
 
 `make phase1-recovery` creates a recovery-partition candidate under `build/phase1/recovery/` for manual device testing. The repository does not run `flash_image` or write to the IS01.
@@ -53,3 +57,5 @@ make phase2-verify
 `make phase2-initramfs` builds the Phase 2 minimal userspace initramfs. It provides a small static ARM `/init` shell for manual console/framebuffer/proc/UTF-8/reboot checks.
 
 `make phase2-recovery` packages that Phase 2 initramfs with the stock recovery kernel using the same IS01 4096-byte boot image section alignment that passed Phase 1 device testing. It requires a local stock `mtd2-recovery.img` backup.
+
+`make phase2-buildroot-rootfs` builds the Phase 2 BusyBox/Dropbear rootfs with pinned Buildroot 2015.02, Linux 2.6.29 headers, uClibc, static target binaries, and a raw `newc` cpio output. `make phase2-buildroot-recovery` packages that rootfs with the same stock recovery kernel path for manual device verification.

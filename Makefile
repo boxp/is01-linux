@@ -1,6 +1,6 @@
 SHELL := /bin/sh
 
-.PHONY: help check lint fmt phase1-fetch phase1-initramfs phase1-kernel phase1-recovery phase1-verify phase1-repack-stock-recovery phase1-repack-stock-verify phase1-stock-kernel-custom-initramfs-recovery phase1-stock-kernel-custom-initramfs-verify phase1-stock-kernel-raw-initramfs-recovery phase1-stock-kernel-raw-initramfs-verify phase2-initramfs phase2-initramfs-verify phase2-recovery phase2-verify
+.PHONY: help check lint fmt phase1-fetch phase1-initramfs phase1-kernel phase1-recovery phase1-verify phase1-repack-stock-recovery phase1-repack-stock-verify phase1-stock-kernel-custom-initramfs-recovery phase1-stock-kernel-custom-initramfs-verify phase1-stock-kernel-raw-initramfs-recovery phase1-stock-kernel-raw-initramfs-verify phase2-initramfs phase2-initramfs-verify phase2-recovery phase2-verify phase2-buildroot-fetch phase2-buildroot-rootfs phase2-buildroot-rootfs-verify phase2-buildroot-recovery phase2-buildroot-recovery-verify
 
 help:
 	@printf '%s\n' \
@@ -22,7 +22,12 @@ help:
 		'  make phase2-initramfs  Build the Phase 2 minimal userspace initramfs' \
 		'  make phase2-initramfs-verify  Verify Phase 2 initramfs contents' \
 		'  make phase2-recovery  Build the Phase 2 manual-test recovery candidate' \
-		'  make phase2-verify    Verify generated Phase 2 artifacts'
+		'  make phase2-verify    Verify generated Phase 2 artifacts' \
+		'  make phase2-buildroot-fetch  Fetch pinned Buildroot source' \
+		'  make phase2-buildroot-rootfs  Build the Phase 2 BusyBox/Dropbear rootfs' \
+		'  make phase2-buildroot-rootfs-verify  Verify Phase 2 Buildroot rootfs' \
+		'  make phase2-buildroot-recovery  Build the Phase 2 Buildroot recovery candidate' \
+		'  make phase2-buildroot-recovery-verify  Verify Phase 2 Buildroot recovery artifacts'
 
 check: lint
 
@@ -81,3 +86,18 @@ phase2-recovery:
 
 phase2-verify:
 	@./scripts/verify-phase2-artifacts.sh
+
+phase2-buildroot-fetch:
+	@./scripts/fetch-buildroot.sh
+
+phase2-buildroot-rootfs:
+	@./scripts/build-phase2-buildroot-rootfs.sh
+
+phase2-buildroot-rootfs-verify:
+	@./scripts/verify-phase2-buildroot-rootfs.sh
+
+phase2-buildroot-recovery:
+	@./scripts/build-phase2-buildroot-recovery.sh
+
+phase2-buildroot-recovery-verify:
+	@./scripts/verify-phase2-buildroot-recovery.sh
