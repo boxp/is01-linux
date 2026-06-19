@@ -29,6 +29,7 @@ grep -F 'BR2_PACKAGE_DROPBEAR_CLIENT=y' "$defconfig" >/dev/null || fail 'Buildro
 grep -F 'BR2_TARGET_ROOTFS_CPIO=y' "$defconfig" >/dev/null || fail 'Buildroot defconfig must emit a cpio rootfs'
 grep -F '/dev/graphics/fb0 c' "$device_table" >/dev/null || fail 'device table must include /dev/graphics/fb0'
 grep -F '/dev/input/event0 c' "$device_table" >/dev/null || fail 'device table must include input events'
+grep -F 'S00is01-boot-probe' "$post_build" >/dev/null || fail 'post-build script must install the IS01 boot probe'
 
 if [ ! -s "$rootfs" ]; then
   printf 'Phase 2 Buildroot rootfs config verified; rootfs image is not built yet: %s\n' "$rootfs"
@@ -48,6 +49,8 @@ cpio_listing=$(cpio -itv <"$rootfs" 2>/dev/null)
   usr/sbin/dropbear \
   usr/bin/dbclient \
   usr/bin/ssh \
+  sbin/is01-fbmark \
+  etc/init.d/S00is01-boot-probe \
   init \
   etc/motd \
   etc/network/interfaces \
@@ -57,6 +60,8 @@ test -x "$tmp_dir/bin/busybox" || fail 'rootfs is missing /bin/busybox'
 test -x "$tmp_dir/usr/sbin/dropbear" || fail 'rootfs is missing /usr/sbin/dropbear'
 test -L "$tmp_dir/usr/bin/dbclient" || fail 'rootfs is missing /usr/bin/dbclient symlink'
 test -L "$tmp_dir/usr/bin/ssh" || fail 'rootfs is missing /usr/bin/ssh symlink'
+test -x "$tmp_dir/sbin/is01-fbmark" || fail 'rootfs is missing /sbin/is01-fbmark'
+test -x "$tmp_dir/etc/init.d/S00is01-boot-probe" || fail 'rootfs is missing IS01 boot probe init script'
 test -L "$tmp_dir/init" || fail 'rootfs is missing /init symlink'
 printf '%s\n' "$cpio_listing" | grep -E '^c.* dev/console$' >/dev/null || fail 'rootfs is missing static /dev/console'
 printf '%s\n' "$cpio_listing" | grep -E '^c.* dev/graphics/fb0$' >/dev/null || fail 'rootfs is missing static framebuffer node'
@@ -66,6 +71,7 @@ grep -F 'usb0' "$tmp_dir/etc/network/interfaces" >/dev/null || fail 'rootfs is m
 
 file "$tmp_dir/bin/busybox" | grep -E 'ELF 32-bit.*ARM.*statically linked' >/dev/null || fail 'BusyBox is not a static ARM ELF'
 file "$tmp_dir/usr/sbin/dropbear" | grep -E 'ELF 32-bit.*ARM.*statically linked' >/dev/null || fail 'Dropbear is not a static ARM ELF'
+file "$tmp_dir/sbin/is01-fbmark" | grep -E 'ELF 32-bit.*ARM.*statically linked' >/dev/null || fail 'is01-fbmark is not a static ARM ELF'
 
 sha256sum "$rootfs" >"$out_dir/SHA256SUMS"
 
