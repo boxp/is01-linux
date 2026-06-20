@@ -46,6 +46,15 @@ jobs:
       - name: Verify Phase 3 boot-entry probe candidates
         run: make phase3-mainline-boot-entry-probes-verify
 
+      - name: Build Phase 3 lean mainline boot payload
+        run: make phase3-mainline-lean-boot
+
+      - name: Verify Phase 3 lean mainline boot payload
+        run: make phase3-mainline-lean-boot-verify
+
+      - name: Build Phase 3 lean recovery candidate
+        run: make phase3-mainline-lean-recovery
+
       - name: Upload Phase 3 mainline boot artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -66,3 +75,11 @@ jobs:
             build/phase3/boot-entry-probes/*-boot-layout.txt
             build/phase3/boot-entry-probes/*-boot.img
             build/phase3/boot-entry-probes/*-recovery.img
+            build/phase3/lean-boot/SHA256SUMS
+            build/phase3/lean-boot/VERIFY-SHA256SUMS
+            build/phase3/lean-boot/VERIFY-BOOT-LAYOUT.txt
+            build/phase3/lean-boot/qcom-qsd8x50-is01.dtb
+            build/phase3/lean-boot/zImage-dtb
+            build/phase3/lean-boot/phase3-mainline-lean-boot.img
+            build/phase3/lean-recovery/SHA256SUMS
+            build/phase3/lean-recovery/phase3-mainline-lean-recovery.img

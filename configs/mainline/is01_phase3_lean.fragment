@@ -1,0 +1,36 @@
+CONFIG_ARCH_MULTI_V7=y
+CONFIG_ARCH_QCOM=y
+CONFIG_ARM_APPENDED_DTB=y
+CONFIG_ARM_ATAG_DTB_COMPAT=y
+CONFIG_BLK_DEV_INITRD=y
+CONFIG_DEVTMPFS=y
+CONFIG_DEVTMPFS_MOUNT=y
+CONFIG_TMPFS=y
+CONFIG_PRINTK=y
+CONFIG_EARLY_PRINTK=y
+CONFIG_PANIC_TIMEOUT=20
+CONFIG_KERNEL_XZ=y
+# CONFIG_KERNEL_GZIP is not set
+CONFIG_CC_OPTIMIZE_FOR_SIZE=y
+CONFIG_CMDLINE="rdinit=/init init=/init root=/dev/ram0 rw panic=20 ignore_loglevel"
+CONFIG_CMDLINE_EXTEND=y
+# CONFIG_MODULES is not set
+# CONFIG_NET is not set
+# CONFIG_WIRELESS is not set
+# CONFIG_BT is not set
+# CONFIG_PCI is not set
+# CONFIG_SCSI is not set
+# CONFIG_ATA is not set
+# CONFIG_MD is not set
+# CONFIG_INPUT is not set
+# CONFIG_DRM is not set
+# CONFIG_FB is not set
+# CONFIG_SOUND is not set
+# CONFIG_MEDIA_SUPPORT is not set
+# CONFIG_USB_SUPPORT is not set
+# CONFIG_MMC is not set
+# CONFIG_MTD is not set
+# CONFIG_EXT4_FS is not set
+# CONFIG_BTRFS_FS is not set
+# CONFIG_NFS_FS is not set
+# CONFIG_DEBUG_KERNEL is not set
