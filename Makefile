@@ -1,6 +1,6 @@
 SHELL := /bin/sh
 
-.PHONY: help check lint test fmt phase1-fetch phase1-initramfs phase1-kernel phase1-recovery phase1-verify phase1-repack-stock-recovery phase1-repack-stock-verify phase1-stock-kernel-custom-initramfs-recovery phase1-stock-kernel-custom-initramfs-verify phase1-stock-kernel-raw-initramfs-recovery phase1-stock-kernel-raw-initramfs-verify phase2-initramfs phase2-initramfs-verify phase2-recovery phase2-verify phase2-buildroot-fetch phase2-buildroot-rootfs phase2-buildroot-rootfs-verify phase2-buildroot-recovery phase2-buildroot-recovery-verify phase3-mainline-fetch phase3-initramfs phase3-initramfs-verify phase3-mainline-config-verify phase3-mainline-boot phase3-mainline-boot-verify phase3-mainline-recovery phase3-mainline-boot-entry-probes phase3-mainline-boot-entry-probes-verify
+.PHONY: help check lint test fmt phase1-fetch phase1-initramfs phase1-kernel phase1-recovery phase1-verify phase1-repack-stock-recovery phase1-repack-stock-verify phase1-stock-kernel-custom-initramfs-recovery phase1-stock-kernel-custom-initramfs-verify phase1-stock-kernel-raw-initramfs-recovery phase1-stock-kernel-raw-initramfs-verify phase2-initramfs phase2-initramfs-verify phase2-recovery phase2-verify phase2-buildroot-fetch phase2-buildroot-rootfs phase2-buildroot-rootfs-verify phase2-buildroot-recovery phase2-buildroot-recovery-verify phase3-mainline-fetch phase3-initramfs phase3-initramfs-verify phase3-mainline-config-verify phase3-mainline-boot phase3-mainline-boot-verify phase3-mainline-recovery phase3-mainline-boot-entry-probes phase3-mainline-boot-entry-probes-verify phase3-mainline-lean-boot phase3-mainline-lean-boot-verify phase3-mainline-lean-recovery
 
 help:
 	@printf '%s\n' \
@@ -36,7 +36,10 @@ help:
 		'  make phase3-mainline-boot-verify  Verify Phase 3 mainline boot payload' \
 		'  make phase3-mainline-recovery  Build the Phase 3 manual-test recovery candidate' \
 		'  make phase3-mainline-boot-entry-probes  Build Phase 3 boot-entry recovery probe candidates' \
-		'  make phase3-mainline-boot-entry-probes-verify  Verify Phase 3 boot-entry probe candidates'
+		'  make phase3-mainline-boot-entry-probes-verify  Verify Phase 3 boot-entry probe candidates' \
+		'  make phase3-mainline-lean-boot  Build the Phase 3 lean mainline boot payload' \
+		'  make phase3-mainline-lean-boot-verify  Verify the Phase 3 lean mainline boot payload' \
+		'  make phase3-mainline-lean-recovery  Build the Phase 3 lean recovery candidate'
 
 check: lint test
 
@@ -140,3 +143,12 @@ phase3-mainline-boot-entry-probes:
 
 phase3-mainline-boot-entry-probes-verify:
 	@./scripts/verify-phase3-mainline-boot-entry-probes.sh
+
+phase3-mainline-lean-boot:
+	@./scripts/build-phase3-mainline-lean-boot.sh
+
+phase3-mainline-lean-boot-verify:
+	@./scripts/verify-phase3-mainline-lean-boot.sh
+
+phase3-mainline-lean-recovery:
+	@./scripts/build-phase3-mainline-lean-recovery.sh
