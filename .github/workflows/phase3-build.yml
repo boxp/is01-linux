@@ -58,6 +58,12 @@ jobs:
       - name: Build Phase 3 lean recovery candidate
         run: make phase3-mainline-lean-recovery
 
+      - name: Build Phase 3 DT handoff recovery candidates
+        run: make phase3-mainline-dt-handoff-variants
+
+      - name: Verify Phase 3 DT handoff recovery candidates
+        run: make phase3-mainline-dt-handoff-variants-verify
+
       - name: Upload Phase 3 mainline boot artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -86,3 +92,10 @@ jobs:
             build/phase3/lean-boot/phase3-mainline-lean-boot.img
             build/phase3/lean-recovery/SHA256SUMS
             build/phase3/lean-recovery/phase3-mainline-lean-recovery.img
+            build/phase3/dt-handoff-variants/SHA256SUMS
+            build/phase3/dt-handoff-variants/VERIFY-SHA256SUMS
+            build/phase3/dt-handoff-variants/*-boot-layout.txt
+            build/phase3/dt-handoff-variants/*.dtb
+            build/phase3/dt-handoff-variants/*-zImage-dtb
+            build/phase3/dt-handoff-variants/*-boot.img
+            build/phase3/dt-handoff-variants/*-recovery.img

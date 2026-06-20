@@ -78,3 +78,8 @@ After the first merged Phase 3 mainline candidate stopped at the stock splash sc
 `configs/mainline/is01_phase3_lean.fragment` and the `phase3-mainline-lean-*` targets keep the same QSD8x50 DTS, Android boot addresses, and timed reboot initramfs signal, but disable obvious non-boot subsystems to reduce kernel payload size for the next early-boot cut.
 
 After the lean mainline candidate also stopped at the stock splash screen with no timed reboot, `scripts/extract-phase3-downstream-board-info.sh` and `metadata/phase3-downstream-board-audit.md` record the Sharp downstream `DECKARD` board handoff facts. The extracted facts confirm `MACH_DECKARD` `2008030`, downstream `.boot_params` `0x20000100`, `PHYS_OFFSET` `0x20000000`, and stock `mem=88M`, so the next Phase 3 cuts should focus on machine/DT handoff assumptions or an earlier external signal rather than Android boot header page alignment.
+
+`scripts/build-phase3-mainline-dt-handoff-variants.sh` generates two recovery candidates under `build/phase3/dt-handoff-variants/` after the baseline, boot-entry probes, and lean candidate all stopped before the timed reboot signal. The variants keep the lean kernel/initramfs and Android boot addresses fixed, but append alternate DTBs:
+
+- `phase3-dt-msm8660-timer-recovery.img`: uses the upstream MSM8660-style `qcom,msm-8660-qgic` and `qcom,scss-timer` nodes.
+- `phase3-dt-vic-timer-recovery.img`: uses the QSD8x50 downstream physical VIC/timer bases (`0xac000000`, `0xac100000`) with `arm,versatile-vic` and `qcom,scss-timer`.

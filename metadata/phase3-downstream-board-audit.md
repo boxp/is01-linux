@@ -28,7 +28,8 @@ Generated from Sharp IS01 BLD010009 downstream kernel source. This summary recor
 - The Phase 3 boot image already uses kernel address `0x20008000` and tags address `0x20000100`, matching the downstream handoff values.
 - The current Phase 3 DTS memory node uses `0x20000000` + `0x05800000`, matching stock `PHYS_OFFSET` and `mem=88M` from the stock cmdline.
 - Since baseline, boot-entry probes, and lean mainline candidates all stop before the timed reboot signal, the next variants should test machine/DT handoff assumptions rather than Android boot header cmdline/page alignment.
-- Candidate next cuts: ATAG-only boot, alternate appended-DTB placement/compatibility, or a custom early-entry payload with an external signal.
+- Candidate next cuts: DT handoff variants with timer/interrupt-controller nodes, ATAG-only boot, alternate appended-DTB placement/compatibility, or a custom early-entry payload with an external signal.
+- The first DT handoff variants should compare an upstream MSM8660-style `qcom,msm-8660-qgic`/`qcom,scss-timer` DTB with a QSD8x50 physical-base `arm,versatile-vic`/`qcom,scss-timer` DTB.
 
 ## Extracted evidence files
 
