@@ -83,3 +83,9 @@ After the lean mainline candidate also stopped at the stock splash screen with n
 
 - `phase3-dt-msm8660-timer-recovery.img`: uses the upstream MSM8660-style `qcom,msm-8660-qgic` and `qcom,scss-timer` nodes.
 - `phase3-dt-vic-timer-recovery.img`: uses the QSD8x50 downstream physical VIC/timer bases (`0xac000000`, `0xac100000`) with `arm,versatile-vic` and `qcom,scss-timer`.
+
+After both DT handoff variants also stopped before the timed reboot signal, `scripts/build-phase3-mainline-atag-dtb-placement-probes.sh` generates recovery candidates under `build/phase3/atag-dtb-placement-probes/` that keep the lean kernel/initramfs and Android boot addresses fixed while changing only DTB placement:
+
+- `phase3-atag-only-zimage-recovery.img`: uses the lean `zImage` without an appended DTB.
+- `phase3-dtb-in-second-recovery.img`: uses the lean `zImage` and places the DTB in the Android boot image second area.
+- `phase3-appended-dtb-second-duplicate-recovery.img`: keeps the appended DTB and also places the DTB in the second area.
