@@ -20,6 +20,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Create an Android boot image v0.")
     parser.add_argument("--kernel", required=True)
     parser.add_argument("--ramdisk", required=True)
+    parser.add_argument("--second")
     parser.add_argument("--output", required=True)
     parser.add_argument("--kernel-addr", type=parse_u32, required=True)
     parser.add_argument("--ramdisk-addr", type=parse_u32, required=True)
@@ -38,7 +39,7 @@ def main() -> int:
 
     kernel = Path(args.kernel).read_bytes()
     ramdisk = Path(args.ramdisk).read_bytes()
-    second = b""
+    second = Path(args.second).read_bytes() if args.second else b""
 
     if len(args.name.encode("ascii")) > 15:
         raise SystemExit("boot image name must fit in 15 ASCII bytes")
@@ -70,7 +71,12 @@ def main() -> int:
         *id_words,
     )
 
-    output = pad(header, image_align_size) + pad(kernel, image_align_size) + pad(ramdisk, image_align_size)
+    output = (
+        pad(header, image_align_size)
+        + pad(kernel, image_align_size)
+        + pad(ramdisk, image_align_size)
+        + pad(second, image_align_size)
+    )
     Path(args.output).write_bytes(output)
     return 0
 

@@ -64,6 +64,12 @@ jobs:
       - name: Verify Phase 3 DT handoff recovery candidates
         run: make phase3-mainline-dt-handoff-variants-verify
 
+      - name: Build Phase 3 ATAG/DTB placement recovery candidates
+        run: make phase3-mainline-atag-dtb-placement-probes
+
+      - name: Verify Phase 3 ATAG/DTB placement recovery candidates
+        run: make phase3-mainline-atag-dtb-placement-probes-verify
+
       - name: Upload Phase 3 mainline boot artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -99,3 +105,8 @@ jobs:
             build/phase3/dt-handoff-variants/*-zImage-dtb
             build/phase3/dt-handoff-variants/*-boot.img
             build/phase3/dt-handoff-variants/*-recovery.img
+            build/phase3/atag-dtb-placement-probes/SHA256SUMS
+            build/phase3/atag-dtb-placement-probes/VERIFY-SHA256SUMS
+            build/phase3/atag-dtb-placement-probes/*-boot-layout.txt
+            build/phase3/atag-dtb-placement-probes/*-boot.img
+            build/phase3/atag-dtb-placement-probes/*-recovery.img
