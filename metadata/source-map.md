@@ -72,3 +72,5 @@ Phase 3 starts from a pinned longterm mainline Linux source archive and keeps th
 - extracted path: `build/sources/linux-6.12.94`
 
 The Phase 3 initial device description is `board/is01/phase3/qcom-qsd8x50-is01.dts`. The first initramfs userspace signal is a 20-second delayed reboot from `/init`; UART discovery is treated as optional auxiliary work rather than a completion gate.
+
+After the first merged Phase 3 mainline candidate stopped at the stock splash screen with no timed reboot, `scripts/build-phase3-mainline-boot-entry-probes.sh` was added to generate recovery candidates that keep the same kernel/initramfs payload but vary Android boot header cmdline and section alignment. The expected output directory is `build/phase3/boot-entry-probes/`.

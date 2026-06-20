@@ -51,6 +51,8 @@ make phase3-mainline-config-verify
 make phase3-mainline-boot
 make phase3-mainline-boot-verify
 make phase3-mainline-recovery
+make phase3-mainline-boot-entry-probes
+make phase3-mainline-boot-entry-probes-verify
 ```
 
 `make phase1-recovery` creates a recovery-partition candidate under `build/phase1/recovery/` for manual device testing. The repository does not run `flash_image` or write to the IS01.
@@ -68,3 +70,5 @@ make phase3-mainline-recovery
 `make phase2-buildroot-rootfs` builds the Phase 2 BusyBox/Dropbear rootfs with pinned Buildroot 2015.02, Linux 2.6.29 headers, uClibc, static target binaries, and a raw `newc` cpio output. `make phase2-buildroot-recovery` packages that rootfs with the same stock recovery kernel path for manual device verification.
 
 `make phase3-mainline-fetch` fetches pinned Linux 6.12.94 source from kernel.org. `make phase3-mainline-boot` builds a mainline ARM `zImage` with an appended minimal IS01 DTB and a raw Phase 3 initramfs, using the 4096-byte Android boot image section alignment observed on stock recovery. The initramfs writes a marker to `/dev/console`, waits 20 seconds, then asks the kernel to reboot so manual testing can distinguish userspace reachability without relying on UART. `make phase3-mainline-recovery` packages the generated Android boot payload into an IS01-sized UBI recovery candidate; when a local stock `mtd2-recovery.img` backup is present, its UBI image sequence number is preserved.
+
+`make phase3-mainline-boot-entry-probes` reuses the Phase 3 mainline kernel payload to produce manual-test recovery candidates with varied Android boot header cmdline/alignment choices. These candidates are intended to split bootloader/header handoff problems from later kernel/initramfs failures after the baseline Phase 3 image stops at the stock splash screen.

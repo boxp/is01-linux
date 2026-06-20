@@ -40,6 +40,12 @@ jobs:
       - name: Build Phase 3 recovery candidate
         run: make phase3-mainline-recovery
 
+      - name: Build Phase 3 boot-entry probe candidates
+        run: make phase3-mainline-boot-entry-probes
+
+      - name: Verify Phase 3 boot-entry probe candidates
+        run: make phase3-mainline-boot-entry-probes-verify
+
       - name: Upload Phase 3 mainline boot artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -55,3 +61,8 @@ jobs:
             build/phase3/mainline-boot/phase3-mainline-minimal-boot.img
             build/phase3/recovery/SHA256SUMS
             build/phase3/recovery/phase3-mainline-minimal-recovery.img
+            build/phase3/boot-entry-probes/SHA256SUMS
+            build/phase3/boot-entry-probes/VERIFY-SHA256SUMS
+            build/phase3/boot-entry-probes/*-boot-layout.txt
+            build/phase3/boot-entry-probes/*-boot.img
+            build/phase3/boot-entry-probes/*-recovery.img
