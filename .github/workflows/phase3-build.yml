@@ -22,6 +22,9 @@ jobs:
       - name: Verify Phase 3 mainline inputs
         run: make phase3-mainline-config-verify
 
+      - name: Verify Phase 3 downstream board audit
+        run: make phase3-downstream-board-audit-verify
+
       - name: Fetch mainline Linux
         run: make phase3-mainline-fetch
 
