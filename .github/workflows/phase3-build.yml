@@ -70,6 +70,12 @@ jobs:
       - name: Verify Phase 3 ATAG/DTB placement recovery candidates
         run: make phase3-mainline-atag-dtb-placement-probes-verify
 
+      - name: Build Phase 3 non-Linux early payload recovery candidates
+        run: make phase3-early-payload-probes
+
+      - name: Verify Phase 3 non-Linux early payload recovery candidates
+        run: make phase3-early-payload-probes-verify
+
       - name: Upload Phase 3 mainline boot artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -110,3 +116,10 @@ jobs:
             build/phase3/atag-dtb-placement-probes/*-boot-layout.txt
             build/phase3/atag-dtb-placement-probes/*-boot.img
             build/phase3/atag-dtb-placement-probes/*-recovery.img
+            build/phase3/early-payload-probes/SHA256SUMS
+            build/phase3/early-payload-probes/VERIFY-SHA256SUMS
+            build/phase3/early-payload-probes/*.elf
+            build/phase3/early-payload-probes/*.bin
+            build/phase3/early-payload-probes/*-boot-layout.txt
+            build/phase3/early-payload-probes/*-boot.img
+            build/phase3/early-payload-probes/*-recovery.img
