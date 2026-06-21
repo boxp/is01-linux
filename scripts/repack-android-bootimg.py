@@ -124,6 +124,10 @@ def main():
     parser.add_argument("--source", type=Path, required=True)
     parser.add_argument("--kernel", type=Path)
     parser.add_argument("--ramdisk", type=Path)
+    parser.add_argument(
+        "--cmdline",
+        help="override the Android boot image cmdline; defaults to preserving the source cmdline",
+    )
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument(
         "--image-align-size",
@@ -137,6 +141,11 @@ def main():
         kernel = args.kernel.read_bytes()
     if args.ramdisk is not None:
         ramdisk = args.ramdisk.read_bytes()
+    if args.cmdline is not None:
+        cmdline = args.cmdline.encode("ascii")
+        if len(cmdline) > 512:
+            fail("cmdline is longer than Android boot image v0 512-byte field")
+        header["cmdline"] = cmdline + (b"\0" * (512 - len(cmdline)))
 
     image_align_size = args.image_align_size or header["page_size"]
     output = build_bootimg(header, kernel, ramdisk, second, dt, image_align_size)
