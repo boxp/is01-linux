@@ -124,6 +124,7 @@ def main():
     parser.add_argument("--source", type=Path, required=True)
     parser.add_argument("--kernel", type=Path)
     parser.add_argument("--ramdisk", type=Path)
+    parser.add_argument("--second", type=Path)
     parser.add_argument(
         "--cmdline",
         help="override the Android boot image cmdline; defaults to preserving the source cmdline",
@@ -141,6 +142,8 @@ def main():
         kernel = args.kernel.read_bytes()
     if args.ramdisk is not None:
         ramdisk = args.ramdisk.read_bytes()
+    if args.second is not None:
+        second = args.second.read_bytes()
     if args.cmdline is not None:
         cmdline = args.cmdline.encode("ascii")
         if len(cmdline) > 512:
