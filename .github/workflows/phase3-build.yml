@@ -112,6 +112,12 @@ jobs:
       - name: Verify Phase 3 decompressor entry reset recovery candidate
         run: make phase3-decompressor-entry-reset-verify
 
+      - name: Build Phase 3 pre-decompress_kernel reset recovery candidate
+        run: make phase3-decompressor-pre-kernel-reset
+
+      - name: Verify Phase 3 pre-decompress_kernel reset recovery candidate
+        run: make phase3-decompressor-pre-kernel-reset-verify
+
       - name: Upload Phase 3 mainline boot artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -211,3 +217,14 @@ jobs:
             build/phase3/decompressor-entry-reset/*-boot-layout.txt
             build/phase3/decompressor-entry-reset/*-boot.img
             build/phase3/decompressor-entry-reset/*-recovery.img
+            build/phase3/decompressor-pre-kernel-reset/SHA256SUMS
+            build/phase3/decompressor-pre-kernel-reset/VERIFY-SHA256SUMS
+            build/phase3/decompressor-pre-kernel-reset/VERIFY-BOOT-LAYOUT.txt
+            build/phase3/decompressor-pre-kernel-reset/source-stock-compatible-boot.txt
+            build/phase3/decompressor-pre-kernel-reset/source-stock-compatible-boot-layout.txt
+            build/phase3/decompressor-pre-kernel-reset/decompressor-pre-kernel-reset-patch.txt
+            build/phase3/decompressor-pre-kernel-reset/*-slot.bin
+            build/phase3/decompressor-pre-kernel-reset/*.cpio
+            build/phase3/decompressor-pre-kernel-reset/*-boot-layout.txt
+            build/phase3/decompressor-pre-kernel-reset/*-boot.img
+            build/phase3/decompressor-pre-kernel-reset/*-recovery.img
