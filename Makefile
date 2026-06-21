@@ -1,6 +1,6 @@
 SHELL := /bin/sh
 
-.PHONY: help check lint test fmt phase1-fetch phase1-initramfs phase1-kernel phase1-recovery phase1-verify phase1-repack-stock-recovery phase1-repack-stock-verify phase1-stock-kernel-custom-initramfs-recovery phase1-stock-kernel-custom-initramfs-verify phase1-stock-kernel-raw-initramfs-recovery phase1-stock-kernel-raw-initramfs-verify phase2-initramfs phase2-initramfs-verify phase2-recovery phase2-verify phase2-buildroot-fetch phase2-buildroot-rootfs phase2-buildroot-rootfs-verify phase2-buildroot-recovery phase2-buildroot-recovery-verify phase3-mainline-fetch phase3-initramfs phase3-initramfs-verify phase3-mainline-config-verify phase3-mainline-boot phase3-mainline-boot-verify phase3-mainline-recovery phase3-mainline-boot-entry-probes phase3-mainline-boot-entry-probes-verify phase3-mainline-lean-boot phase3-mainline-lean-boot-verify phase3-mainline-lean-recovery phase3-mainline-dt-handoff-variants phase3-mainline-dt-handoff-variants-verify phase3-mainline-atag-dtb-placement-probes phase3-mainline-atag-dtb-placement-probes-verify phase3-early-payload-probes phase3-early-payload-probes-verify phase3-downstream-board-audit phase3-downstream-board-audit-verify
+.PHONY: help check lint test fmt phase1-fetch phase1-initramfs phase1-kernel phase1-recovery phase1-verify phase1-repack-stock-recovery phase1-repack-stock-verify phase1-stock-kernel-custom-initramfs-recovery phase1-stock-kernel-custom-initramfs-verify phase1-stock-kernel-raw-initramfs-recovery phase1-stock-kernel-raw-initramfs-verify phase2-initramfs phase2-initramfs-verify phase2-recovery phase2-verify phase2-buildroot-fetch phase2-buildroot-rootfs phase2-buildroot-rootfs-verify phase2-buildroot-recovery phase2-buildroot-recovery-verify phase3-mainline-fetch phase3-initramfs phase3-initramfs-verify phase3-mainline-config-verify phase3-mainline-boot phase3-mainline-boot-verify phase3-mainline-recovery phase3-mainline-boot-entry-probes phase3-mainline-boot-entry-probes-verify phase3-mainline-lean-boot phase3-mainline-lean-boot-verify phase3-mainline-lean-recovery phase3-mainline-dt-handoff-variants phase3-mainline-dt-handoff-variants-verify phase3-mainline-atag-dtb-placement-probes phase3-mainline-atag-dtb-placement-probes-verify phase3-early-payload-probes phase3-early-payload-probes-verify phase3-early-signal-probes phase3-early-signal-probes-verify phase3-downstream-board-audit phase3-downstream-board-audit-verify
 
 help:
 	@printf '%s\n' \
@@ -46,6 +46,8 @@ help:
 		'  make phase3-mainline-atag-dtb-placement-probes-verify  Verify Phase 3 ATAG/DTB placement candidates' \
 		'  make phase3-early-payload-probes  Build Phase 3 non-Linux early payload candidates' \
 		'  make phase3-early-payload-probes-verify  Verify Phase 3 non-Linux early payload candidates' \
+		'  make phase3-early-signal-probes  Build Phase 3 Image/zImage-shaped early signal candidates' \
+		'  make phase3-early-signal-probes-verify  Verify Phase 3 Image/zImage-shaped early signal candidates' \
 		'  make phase3-downstream-board-audit  Extract downstream board handoff facts' \
 		'  make phase3-downstream-board-audit-verify  Verify downstream board audit metadata'
 
@@ -178,6 +180,12 @@ phase3-early-payload-probes:
 
 phase3-early-payload-probes-verify:
 	@./scripts/verify-phase3-early-payload-probes.sh
+
+phase3-early-signal-probes:
+	@./scripts/build-phase3-early-signal-probes.sh
+
+phase3-early-signal-probes-verify:
+	@./scripts/verify-phase3-early-signal-probes.sh
 
 phase3-downstream-board-audit:
 	@./scripts/extract-phase3-downstream-board-info.sh
