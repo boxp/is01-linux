@@ -76,6 +76,12 @@ jobs:
       - name: Verify Phase 3 non-Linux early payload recovery candidates
         run: make phase3-early-payload-probes-verify
 
+      - name: Build Phase 3 Image/zImage-shaped early signal recovery candidates
+        run: make phase3-early-signal-probes
+
+      - name: Verify Phase 3 Image/zImage-shaped early signal recovery candidates
+        run: make phase3-early-signal-probes-verify
+
       - name: Upload Phase 3 mainline boot artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -123,3 +129,10 @@ jobs:
             build/phase3/early-payload-probes/*-boot-layout.txt
             build/phase3/early-payload-probes/*-boot.img
             build/phase3/early-payload-probes/*-recovery.img
+            build/phase3/early-signal-probes/SHA256SUMS
+            build/phase3/early-signal-probes/VERIFY-SHA256SUMS
+            build/phase3/early-signal-probes/*.elf
+            build/phase3/early-signal-probes/*.bin
+            build/phase3/early-signal-probes/*-boot-layout.txt
+            build/phase3/early-signal-probes/*-boot.img
+            build/phase3/early-signal-probes/*-recovery.img
