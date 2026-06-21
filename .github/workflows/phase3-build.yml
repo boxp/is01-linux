@@ -82,6 +82,12 @@ jobs:
       - name: Verify Phase 3 Image/zImage-shaped early signal recovery candidates
         run: make phase3-early-signal-probes-verify
 
+      - name: Build Phase 3 display-independent early signal recovery candidates
+        run: make phase3-display-independent-probes
+
+      - name: Verify Phase 3 display-independent early signal recovery candidates
+        run: make phase3-display-independent-probes-verify
+
       - name: Upload Phase 3 mainline boot artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -136,3 +142,10 @@ jobs:
             build/phase3/early-signal-probes/*-boot-layout.txt
             build/phase3/early-signal-probes/*-boot.img
             build/phase3/early-signal-probes/*-recovery.img
+            build/phase3/display-independent-probes/SHA256SUMS
+            build/phase3/display-independent-probes/VERIFY-SHA256SUMS
+            build/phase3/display-independent-probes/*.elf
+            build/phase3/display-independent-probes/*.bin
+            build/phase3/display-independent-probes/*-boot-layout.txt
+            build/phase3/display-independent-probes/*-boot.img
+            build/phase3/display-independent-probes/*-recovery.img
