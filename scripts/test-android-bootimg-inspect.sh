@@ -13,9 +13,11 @@ second="$tmp_dir/second.dtb"
 boot_img="$tmp_dir/test-boot.img"
 second_boot_img="$tmp_dir/test-boot-second.img"
 repacked_boot_img="$tmp_dir/test-boot-repacked.img"
+repacked_second_boot_img="$tmp_dir/test-boot-repacked-second.img"
 json_out="$tmp_dir/test-boot.json"
 second_json_out="$tmp_dir/test-boot-second.json"
 repacked_json_out="$tmp_dir/test-boot-repacked.json"
+repacked_second_json_out="$tmp_dir/test-boot-repacked-second.json"
 
 printf 'kernel-test-payload' >"$kernel"
 printf '070701ramdisk-test-payload' >"$ramdisk"
@@ -75,6 +77,31 @@ assert report["path"].endswith("test-boot-repacked.img")
 assert report["kernel_size"] == len(b"kernel-test-payload")
 assert report["ramdisk_size"] == len(b"070701ramdisk-test-payload")
 assert report["cmdline"] == "console=ttyMSM2 androidboot.hardware=qcom"
+assert report["image_align_size"] == 4096
+PY
+
+./scripts/repack-android-bootimg.py \
+  --source "$boot_img" \
+  --kernel "$kernel" \
+  --ramdisk "$ramdisk" \
+  --second "$second" \
+  --image-align-size 4096 \
+  --output "$repacked_second_boot_img"
+
+./scripts/inspect-android-bootimg.py --image-align-size 4096 --json "$repacked_second_boot_img" >"$repacked_second_json_out"
+
+python3 - "$repacked_second_json_out" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+report = json.loads(Path(sys.argv[1]).read_text())
+assert report["path"].endswith("test-boot-repacked-second.img")
+assert report["kernel_size"] == len(b"kernel-test-payload")
+assert report["ramdisk_size"] == len(b"070701ramdisk-test-payload")
+assert report["second_size"] == len(b"dtb-test-payload")
+assert report["second_addr"] == 0x20F00000
+assert report["second_offset"] == 12288
 assert report["image_align_size"] == 4096
 PY
 
