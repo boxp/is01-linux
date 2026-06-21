@@ -12,8 +12,10 @@ ramdisk="$tmp_dir/ramdisk.cpio"
 second="$tmp_dir/second.dtb"
 boot_img="$tmp_dir/test-boot.img"
 second_boot_img="$tmp_dir/test-boot-second.img"
+repacked_boot_img="$tmp_dir/test-boot-repacked.img"
 json_out="$tmp_dir/test-boot.json"
 second_json_out="$tmp_dir/test-boot-second.json"
+repacked_json_out="$tmp_dir/test-boot-repacked.json"
 
 printf 'kernel-test-payload' >"$kernel"
 printf '070701ramdisk-test-payload' >"$ramdisk"
@@ -52,6 +54,29 @@ PY
 
 ./scripts/inspect-android-bootimg.py "$boot_img" | grep -F 'kernel_addr: 0x20008000' >/dev/null
 ./scripts/inspect-android-bootimg.py --image-align-size 4096 --expect-page-size 2048 --expect-align-size 4096 "$boot_img" >/dev/null
+
+./scripts/repack-android-bootimg.py \
+  --source "$boot_img" \
+  --kernel "$kernel" \
+  --ramdisk "$ramdisk" \
+  --cmdline 'console=ttyMSM2 androidboot.hardware=qcom' \
+  --image-align-size 4096 \
+  --output "$repacked_boot_img"
+
+./scripts/inspect-android-bootimg.py --image-align-size 4096 --json "$repacked_boot_img" >"$repacked_json_out"
+
+python3 - "$repacked_json_out" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+report = json.loads(Path(sys.argv[1]).read_text())
+assert report["path"].endswith("test-boot-repacked.img")
+assert report["kernel_size"] == len(b"kernel-test-payload")
+assert report["ramdisk_size"] == len(b"070701ramdisk-test-payload")
+assert report["cmdline"] == "console=ttyMSM2 androidboot.hardware=qcom"
+assert report["image_align_size"] == 4096
+PY
 
 ./scripts/mkbootimg.py \
   --kernel "$kernel" \

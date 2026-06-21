@@ -94,6 +94,12 @@ jobs:
       - name: Verify Phase 3 stock-header kernel-swap recovery candidates
         run: make phase3-stock-header-kernel-swap-probes-verify
 
+      - name: Build Phase 3 stock-header Linux entry recovery candidates
+        run: make phase3-stock-header-linux-entry
+
+      - name: Verify Phase 3 stock-header Linux entry recovery candidates
+        run: make phase3-stock-header-linux-entry-verify
+
       - name: Upload Phase 3 mainline boot artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -164,3 +170,12 @@ jobs:
             build/phase3/stock-header-kernel-swap-probes/*-boot-layout.txt
             build/phase3/stock-header-kernel-swap-probes/*-boot.img
             build/phase3/stock-header-kernel-swap-probes/*-recovery.img
+            build/phase3/stock-header-linux-entry/SHA256SUMS
+            build/phase3/stock-header-linux-entry/VERIFY-SHA256SUMS
+            build/phase3/stock-header-linux-entry/source-stock-compatible-boot.txt
+            build/phase3/stock-header-linux-entry/source-stock-compatible-boot-layout.txt
+            build/phase3/stock-header-linux-entry/*-slot.bin
+            build/phase3/stock-header-linux-entry/*.cpio
+            build/phase3/stock-header-linux-entry/*-boot-layout.txt
+            build/phase3/stock-header-linux-entry/*-boot.img
+            build/phase3/stock-header-linux-entry/*-recovery.img
