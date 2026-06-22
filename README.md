@@ -79,3 +79,7 @@ make phase3-mainline-lean-recovery
 `make phase3-mainline-lean-boot` builds a smaller Phase 3 mainline candidate from the same `multi_v7_defconfig` base with obvious non-boot subsystems disabled. It keeps the same timed reboot initramfs signal and is intended as the next manual-test candidate if the boot-entry probes also stop before `/init`.
 
 `make phase3-mainline-atag-dtb-placement-probes` reuses the lean Phase 3 kernel payloads to produce manual-test recovery candidates that vary whether the kernel is booted ATAG-only, with the DTB in the Android boot image second area, or with the DTB both appended and in the second area. These candidates are intended to split early bootloader payload placement problems from DT compatible-string problems after the DT handoff variants also stop at the stock splash screen.
+
+## License
+
+This repository is licensed under GPL-2.0-only. See [LICENSE](LICENSE).
