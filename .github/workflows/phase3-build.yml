@@ -168,10 +168,18 @@ jobs:
         run: make phase3-decompressor-post-kernel-reset-verify
 
       - name: Build Phase 3 pre-__enter_kernel reset recovery candidate
+        if: github.event_name == 'workflow_dispatch' && inputs.build_scope == 'full'
         run: make phase3-decompressor-pre-enter-kernel-reset
 
       - name: Verify Phase 3 pre-__enter_kernel reset recovery candidate
+        if: github.event_name == 'workflow_dispatch' && inputs.build_scope == 'full'
         run: make phase3-decompressor-pre-enter-kernel-reset-verify
+
+      - name: Build Phase 3 __enter_kernel reset recovery candidate
+        run: make phase3-enter-kernel-reset
+
+      - name: Verify Phase 3 __enter_kernel reset recovery candidate
+        run: make phase3-enter-kernel-reset-verify
 
       - name: Upload Phase 3 mainline boot artifacts
         if: github.event_name == 'workflow_dispatch' && inputs.build_scope == 'full'
@@ -306,6 +314,17 @@ jobs:
             build/phase3/decompressor-pre-enter-kernel-reset/*-boot-layout.txt
             build/phase3/decompressor-pre-enter-kernel-reset/*-boot.img
             build/phase3/decompressor-pre-enter-kernel-reset/*-recovery.img
+            build/phase3/enter-kernel-reset/SHA256SUMS
+            build/phase3/enter-kernel-reset/VERIFY-SHA256SUMS
+            build/phase3/enter-kernel-reset/VERIFY-BOOT-LAYOUT.txt
+            build/phase3/enter-kernel-reset/source-stock-compatible-boot.txt
+            build/phase3/enter-kernel-reset/source-stock-compatible-boot-layout.txt
+            build/phase3/enter-kernel-reset/enter-kernel-reset-patch.txt
+            build/phase3/enter-kernel-reset/*-slot.bin
+            build/phase3/enter-kernel-reset/*.cpio
+            build/phase3/enter-kernel-reset/*-boot-layout.txt
+            build/phase3/enter-kernel-reset/*-boot.img
+            build/phase3/enter-kernel-reset/*-recovery.img
 
       - name: Upload Phase 3 active probe artifacts
         if: github.event_name != 'pull_request'
@@ -316,17 +335,17 @@ jobs:
             build/phase3/initramfs/SHA256SUMS
             build/phase3/initramfs/phase3-init
             build/phase3/initramfs/initramfs.cpio
-            build/phase3/decompressor-pre-enter-kernel-reset/SHA256SUMS
-            build/phase3/decompressor-pre-enter-kernel-reset/VERIFY-SHA256SUMS
-            build/phase3/decompressor-pre-enter-kernel-reset/VERIFY-BOOT-LAYOUT.txt
-            build/phase3/decompressor-pre-enter-kernel-reset/source-stock-compatible-boot.txt
-            build/phase3/decompressor-pre-enter-kernel-reset/source-stock-compatible-boot-layout.txt
-            build/phase3/decompressor-pre-enter-kernel-reset/decompressor-pre-enter-kernel-reset-patch.txt
-            build/phase3/decompressor-pre-enter-kernel-reset/*-slot.bin
-            build/phase3/decompressor-pre-enter-kernel-reset/*.cpio
-            build/phase3/decompressor-pre-enter-kernel-reset/*-boot-layout.txt
-            build/phase3/decompressor-pre-enter-kernel-reset/*-boot.img
-            build/phase3/decompressor-pre-enter-kernel-reset/*-recovery.img
+            build/phase3/enter-kernel-reset/SHA256SUMS
+            build/phase3/enter-kernel-reset/VERIFY-SHA256SUMS
+            build/phase3/enter-kernel-reset/VERIFY-BOOT-LAYOUT.txt
+            build/phase3/enter-kernel-reset/source-stock-compatible-boot.txt
+            build/phase3/enter-kernel-reset/source-stock-compatible-boot-layout.txt
+            build/phase3/enter-kernel-reset/enter-kernel-reset-patch.txt
+            build/phase3/enter-kernel-reset/*-slot.bin
+            build/phase3/enter-kernel-reset/*.cpio
+            build/phase3/enter-kernel-reset/*-boot-layout.txt
+            build/phase3/enter-kernel-reset/*-boot.img
+            build/phase3/enter-kernel-reset/*-recovery.img
 
       - name: Upload Phase 3 PR probe artifacts
         if: github.event_name == 'pull_request'
@@ -337,14 +356,14 @@ jobs:
             build/phase3/initramfs/SHA256SUMS
             build/phase3/initramfs/phase3-init
             build/phase3/initramfs/initramfs.cpio
-            build/phase3/decompressor-pre-enter-kernel-reset/SHA256SUMS
-            build/phase3/decompressor-pre-enter-kernel-reset/VERIFY-SHA256SUMS
-            build/phase3/decompressor-pre-enter-kernel-reset/VERIFY-BOOT-LAYOUT.txt
-            build/phase3/decompressor-pre-enter-kernel-reset/source-stock-compatible-boot.txt
-            build/phase3/decompressor-pre-enter-kernel-reset/source-stock-compatible-boot-layout.txt
-            build/phase3/decompressor-pre-enter-kernel-reset/decompressor-pre-enter-kernel-reset-patch.txt
-            build/phase3/decompressor-pre-enter-kernel-reset/*-slot.bin
-            build/phase3/decompressor-pre-enter-kernel-reset/*.cpio
-            build/phase3/decompressor-pre-enter-kernel-reset/*-boot-layout.txt
-            build/phase3/decompressor-pre-enter-kernel-reset/*-boot.img
-            build/phase3/decompressor-pre-enter-kernel-reset/*-recovery.img
+            build/phase3/enter-kernel-reset/SHA256SUMS
+            build/phase3/enter-kernel-reset/VERIFY-SHA256SUMS
+            build/phase3/enter-kernel-reset/VERIFY-BOOT-LAYOUT.txt
+            build/phase3/enter-kernel-reset/source-stock-compatible-boot.txt
+            build/phase3/enter-kernel-reset/source-stock-compatible-boot-layout.txt
+            build/phase3/enter-kernel-reset/enter-kernel-reset-patch.txt
+            build/phase3/enter-kernel-reset/*-slot.bin
+            build/phase3/enter-kernel-reset/*.cpio
+            build/phase3/enter-kernel-reset/*-boot-layout.txt
+            build/phase3/enter-kernel-reset/*-boot.img
+            build/phase3/enter-kernel-reset/*-recovery.img
