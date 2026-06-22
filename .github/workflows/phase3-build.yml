@@ -208,10 +208,18 @@ jobs:
         run: make phase3-post-vet-atags-reset-verify
 
       - name: Build Phase 3 post-__create_page_tables reset recovery candidate
+        if: github.event_name == 'workflow_dispatch' && inputs.build_scope == 'full'
         run: make phase3-post-page-tables-reset
 
       - name: Verify Phase 3 post-__create_page_tables reset recovery candidate
+        if: github.event_name == 'workflow_dispatch' && inputs.build_scope == 'full'
         run: make phase3-post-page-tables-reset-verify
+
+      - name: Build Phase 3 pre-__enable_mmu reset recovery candidate
+        run: make phase3-pre-enable-mmu-reset
+
+      - name: Verify Phase 3 pre-__enable_mmu reset recovery candidate
+        run: make phase3-pre-enable-mmu-reset-verify
 
       - name: Upload Phase 3 mainline boot artifacts
         if: github.event_name == 'workflow_dispatch' && inputs.build_scope == 'full'
@@ -401,6 +409,17 @@ jobs:
             build/phase3/post-page-tables-reset/*-boot-layout.txt
             build/phase3/post-page-tables-reset/*-boot.img
             build/phase3/post-page-tables-reset/*-recovery.img
+            build/phase3/pre-enable-mmu-reset/SHA256SUMS
+            build/phase3/pre-enable-mmu-reset/VERIFY-SHA256SUMS
+            build/phase3/pre-enable-mmu-reset/VERIFY-BOOT-LAYOUT.txt
+            build/phase3/pre-enable-mmu-reset/source-stock-compatible-boot.txt
+            build/phase3/pre-enable-mmu-reset/source-stock-compatible-boot-layout.txt
+            build/phase3/pre-enable-mmu-reset/pre-enable-mmu-reset-patch.txt
+            build/phase3/pre-enable-mmu-reset/*-slot.bin
+            build/phase3/pre-enable-mmu-reset/*.cpio
+            build/phase3/pre-enable-mmu-reset/*-boot-layout.txt
+            build/phase3/pre-enable-mmu-reset/*-boot.img
+            build/phase3/pre-enable-mmu-reset/*-recovery.img
 
       - name: Upload Phase 3 active probe artifacts
         if: github.event_name != 'pull_request'
@@ -411,17 +430,17 @@ jobs:
             build/phase3/initramfs/SHA256SUMS
             build/phase3/initramfs/phase3-init
             build/phase3/initramfs/initramfs.cpio
-            build/phase3/post-page-tables-reset/SHA256SUMS
-            build/phase3/post-page-tables-reset/VERIFY-SHA256SUMS
-            build/phase3/post-page-tables-reset/VERIFY-BOOT-LAYOUT.txt
-            build/phase3/post-page-tables-reset/source-stock-compatible-boot.txt
-            build/phase3/post-page-tables-reset/source-stock-compatible-boot-layout.txt
-            build/phase3/post-page-tables-reset/post-page-tables-reset-patch.txt
-            build/phase3/post-page-tables-reset/*-slot.bin
-            build/phase3/post-page-tables-reset/*.cpio
-            build/phase3/post-page-tables-reset/*-boot-layout.txt
-            build/phase3/post-page-tables-reset/*-boot.img
-            build/phase3/post-page-tables-reset/*-recovery.img
+            build/phase3/pre-enable-mmu-reset/SHA256SUMS
+            build/phase3/pre-enable-mmu-reset/VERIFY-SHA256SUMS
+            build/phase3/pre-enable-mmu-reset/VERIFY-BOOT-LAYOUT.txt
+            build/phase3/pre-enable-mmu-reset/source-stock-compatible-boot.txt
+            build/phase3/pre-enable-mmu-reset/source-stock-compatible-boot-layout.txt
+            build/phase3/pre-enable-mmu-reset/pre-enable-mmu-reset-patch.txt
+            build/phase3/pre-enable-mmu-reset/*-slot.bin
+            build/phase3/pre-enable-mmu-reset/*.cpio
+            build/phase3/pre-enable-mmu-reset/*-boot-layout.txt
+            build/phase3/pre-enable-mmu-reset/*-boot.img
+            build/phase3/pre-enable-mmu-reset/*-recovery.img
 
       - name: Upload Phase 3 PR probe artifacts
         if: github.event_name == 'pull_request'
@@ -432,14 +451,14 @@ jobs:
             build/phase3/initramfs/SHA256SUMS
             build/phase3/initramfs/phase3-init
             build/phase3/initramfs/initramfs.cpio
-            build/phase3/post-page-tables-reset/SHA256SUMS
-            build/phase3/post-page-tables-reset/VERIFY-SHA256SUMS
-            build/phase3/post-page-tables-reset/VERIFY-BOOT-LAYOUT.txt
-            build/phase3/post-page-tables-reset/source-stock-compatible-boot.txt
-            build/phase3/post-page-tables-reset/source-stock-compatible-boot-layout.txt
-            build/phase3/post-page-tables-reset/post-page-tables-reset-patch.txt
-            build/phase3/post-page-tables-reset/*-slot.bin
-            build/phase3/post-page-tables-reset/*.cpio
-            build/phase3/post-page-tables-reset/*-boot-layout.txt
-            build/phase3/post-page-tables-reset/*-boot.img
-            build/phase3/post-page-tables-reset/*-recovery.img
+            build/phase3/pre-enable-mmu-reset/SHA256SUMS
+            build/phase3/pre-enable-mmu-reset/VERIFY-SHA256SUMS
+            build/phase3/pre-enable-mmu-reset/VERIFY-BOOT-LAYOUT.txt
+            build/phase3/pre-enable-mmu-reset/source-stock-compatible-boot.txt
+            build/phase3/pre-enable-mmu-reset/source-stock-compatible-boot-layout.txt
+            build/phase3/pre-enable-mmu-reset/pre-enable-mmu-reset-patch.txt
+            build/phase3/pre-enable-mmu-reset/*-slot.bin
+            build/phase3/pre-enable-mmu-reset/*.cpio
+            build/phase3/pre-enable-mmu-reset/*-boot-layout.txt
+            build/phase3/pre-enable-mmu-reset/*-boot.img
+            build/phase3/pre-enable-mmu-reset/*-recovery.img
