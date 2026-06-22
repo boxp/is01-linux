@@ -224,10 +224,18 @@ jobs:
         run: make phase3-pre-enable-mmu-reset-verify
 
       - name: Build Phase 3 __enable_mmu entry reset recovery candidate
+        if: github.event_name == 'workflow_dispatch' && inputs.build_scope == 'full'
         run: make phase3-enable-mmu-entry-reset
 
       - name: Verify Phase 3 __enable_mmu entry reset recovery candidate
+        if: github.event_name == 'workflow_dispatch' && inputs.build_scope == 'full'
         run: make phase3-enable-mmu-entry-reset-verify
+
+      - name: Build Phase 3 pre-__turn_mmu_on reset recovery candidate
+        run: make phase3-pre-turn-mmu-on-reset
+
+      - name: Verify Phase 3 pre-__turn_mmu_on reset recovery candidate
+        run: make phase3-pre-turn-mmu-on-reset-verify
 
       - name: Upload Phase 3 mainline boot artifacts
         if: github.event_name == 'workflow_dispatch' && inputs.build_scope == 'full'
@@ -439,6 +447,17 @@ jobs:
             build/phase3/enable-mmu-entry-reset/*-boot-layout.txt
             build/phase3/enable-mmu-entry-reset/*-boot.img
             build/phase3/enable-mmu-entry-reset/*-recovery.img
+            build/phase3/pre-turn-mmu-on-reset/SHA256SUMS
+            build/phase3/pre-turn-mmu-on-reset/VERIFY-SHA256SUMS
+            build/phase3/pre-turn-mmu-on-reset/VERIFY-BOOT-LAYOUT.txt
+            build/phase3/pre-turn-mmu-on-reset/source-stock-compatible-boot.txt
+            build/phase3/pre-turn-mmu-on-reset/source-stock-compatible-boot-layout.txt
+            build/phase3/pre-turn-mmu-on-reset/pre-turn-mmu-on-reset-patch.txt
+            build/phase3/pre-turn-mmu-on-reset/*-slot.bin
+            build/phase3/pre-turn-mmu-on-reset/*.cpio
+            build/phase3/pre-turn-mmu-on-reset/*-boot-layout.txt
+            build/phase3/pre-turn-mmu-on-reset/*-boot.img
+            build/phase3/pre-turn-mmu-on-reset/*-recovery.img
 
       - name: Upload Phase 3 active probe artifacts
         if: github.event_name != 'pull_request'
@@ -449,17 +468,17 @@ jobs:
             build/phase3/initramfs/SHA256SUMS
             build/phase3/initramfs/phase3-init
             build/phase3/initramfs/initramfs.cpio
-            build/phase3/enable-mmu-entry-reset/SHA256SUMS
-            build/phase3/enable-mmu-entry-reset/VERIFY-SHA256SUMS
-            build/phase3/enable-mmu-entry-reset/VERIFY-BOOT-LAYOUT.txt
-            build/phase3/enable-mmu-entry-reset/source-stock-compatible-boot.txt
-            build/phase3/enable-mmu-entry-reset/source-stock-compatible-boot-layout.txt
-            build/phase3/enable-mmu-entry-reset/enable-mmu-entry-reset-patch.txt
-            build/phase3/enable-mmu-entry-reset/*-slot.bin
-            build/phase3/enable-mmu-entry-reset/*.cpio
-            build/phase3/enable-mmu-entry-reset/*-boot-layout.txt
-            build/phase3/enable-mmu-entry-reset/*-boot.img
-            build/phase3/enable-mmu-entry-reset/*-recovery.img
+            build/phase3/pre-turn-mmu-on-reset/SHA256SUMS
+            build/phase3/pre-turn-mmu-on-reset/VERIFY-SHA256SUMS
+            build/phase3/pre-turn-mmu-on-reset/VERIFY-BOOT-LAYOUT.txt
+            build/phase3/pre-turn-mmu-on-reset/source-stock-compatible-boot.txt
+            build/phase3/pre-turn-mmu-on-reset/source-stock-compatible-boot-layout.txt
+            build/phase3/pre-turn-mmu-on-reset/pre-turn-mmu-on-reset-patch.txt
+            build/phase3/pre-turn-mmu-on-reset/*-slot.bin
+            build/phase3/pre-turn-mmu-on-reset/*.cpio
+            build/phase3/pre-turn-mmu-on-reset/*-boot-layout.txt
+            build/phase3/pre-turn-mmu-on-reset/*-boot.img
+            build/phase3/pre-turn-mmu-on-reset/*-recovery.img
 
       - name: Upload Phase 3 PR probe artifacts
         if: github.event_name == 'pull_request'
@@ -470,14 +489,14 @@ jobs:
             build/phase3/initramfs/SHA256SUMS
             build/phase3/initramfs/phase3-init
             build/phase3/initramfs/initramfs.cpio
-            build/phase3/enable-mmu-entry-reset/SHA256SUMS
-            build/phase3/enable-mmu-entry-reset/VERIFY-SHA256SUMS
-            build/phase3/enable-mmu-entry-reset/VERIFY-BOOT-LAYOUT.txt
-            build/phase3/enable-mmu-entry-reset/source-stock-compatible-boot.txt
-            build/phase3/enable-mmu-entry-reset/source-stock-compatible-boot-layout.txt
-            build/phase3/enable-mmu-entry-reset/enable-mmu-entry-reset-patch.txt
-            build/phase3/enable-mmu-entry-reset/*-slot.bin
-            build/phase3/enable-mmu-entry-reset/*.cpio
-            build/phase3/enable-mmu-entry-reset/*-boot-layout.txt
-            build/phase3/enable-mmu-entry-reset/*-boot.img
-            build/phase3/enable-mmu-entry-reset/*-recovery.img
+            build/phase3/pre-turn-mmu-on-reset/SHA256SUMS
+            build/phase3/pre-turn-mmu-on-reset/VERIFY-SHA256SUMS
+            build/phase3/pre-turn-mmu-on-reset/VERIFY-BOOT-LAYOUT.txt
+            build/phase3/pre-turn-mmu-on-reset/source-stock-compatible-boot.txt
+            build/phase3/pre-turn-mmu-on-reset/source-stock-compatible-boot-layout.txt
+            build/phase3/pre-turn-mmu-on-reset/pre-turn-mmu-on-reset-patch.txt
+            build/phase3/pre-turn-mmu-on-reset/*-slot.bin
+            build/phase3/pre-turn-mmu-on-reset/*.cpio
+            build/phase3/pre-turn-mmu-on-reset/*-boot-layout.txt
+            build/phase3/pre-turn-mmu-on-reset/*-boot.img
+            build/phase3/pre-turn-mmu-on-reset/*-recovery.img
