@@ -6,6 +6,15 @@ on:
       - main
   pull_request:
   workflow_dispatch:
+    inputs:
+      build_scope:
+        description: Phase 3 artifact scope
+        required: true
+        default: active
+        type: choice
+        options:
+          - active
+          - full
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -39,123 +48,123 @@ jobs:
         run: make phase3-initramfs-verify
 
       - name: Build Phase 3 mainline boot payload
-        if: github.event_name != 'pull_request'
+        if: github.event_name == 'workflow_dispatch' && inputs.build_scope == 'full'
         run: make phase3-mainline-boot
 
       - name: Verify Phase 3 mainline boot payload
-        if: github.event_name != 'pull_request'
+        if: github.event_name == 'workflow_dispatch' && inputs.build_scope == 'full'
         run: make phase3-mainline-boot-verify
 
       - name: Build Phase 3 recovery candidate
-        if: github.event_name != 'pull_request'
+        if: github.event_name == 'workflow_dispatch' && inputs.build_scope == 'full'
         run: make phase3-mainline-recovery
 
       - name: Build Phase 3 boot-entry probe candidates
-        if: github.event_name != 'pull_request'
+        if: github.event_name == 'workflow_dispatch' && inputs.build_scope == 'full'
         run: make phase3-mainline-boot-entry-probes
 
       - name: Verify Phase 3 boot-entry probe candidates
-        if: github.event_name != 'pull_request'
+        if: github.event_name == 'workflow_dispatch' && inputs.build_scope == 'full'
         run: make phase3-mainline-boot-entry-probes-verify
 
       - name: Build Phase 3 lean mainline boot payload
-        if: github.event_name != 'pull_request'
+        if: github.event_name == 'workflow_dispatch' && inputs.build_scope == 'full'
         run: make phase3-mainline-lean-boot
 
       - name: Verify Phase 3 lean mainline boot payload
-        if: github.event_name != 'pull_request'
+        if: github.event_name == 'workflow_dispatch' && inputs.build_scope == 'full'
         run: make phase3-mainline-lean-boot-verify
 
       - name: Build Phase 3 lean recovery candidate
-        if: github.event_name != 'pull_request'
+        if: github.event_name == 'workflow_dispatch' && inputs.build_scope == 'full'
         run: make phase3-mainline-lean-recovery
 
       - name: Build Phase 3 DT handoff recovery candidates
-        if: github.event_name != 'pull_request'
+        if: github.event_name == 'workflow_dispatch' && inputs.build_scope == 'full'
         run: make phase3-mainline-dt-handoff-variants
 
       - name: Verify Phase 3 DT handoff recovery candidates
-        if: github.event_name != 'pull_request'
+        if: github.event_name == 'workflow_dispatch' && inputs.build_scope == 'full'
         run: make phase3-mainline-dt-handoff-variants-verify
 
       - name: Build Phase 3 ATAG/DTB placement recovery candidates
-        if: github.event_name != 'pull_request'
+        if: github.event_name == 'workflow_dispatch' && inputs.build_scope == 'full'
         run: make phase3-mainline-atag-dtb-placement-probes
 
       - name: Verify Phase 3 ATAG/DTB placement recovery candidates
-        if: github.event_name != 'pull_request'
+        if: github.event_name == 'workflow_dispatch' && inputs.build_scope == 'full'
         run: make phase3-mainline-atag-dtb-placement-probes-verify
 
       - name: Build Phase 3 non-Linux early payload recovery candidates
-        if: github.event_name != 'pull_request'
+        if: github.event_name == 'workflow_dispatch' && inputs.build_scope == 'full'
         run: make phase3-early-payload-probes
 
       - name: Verify Phase 3 non-Linux early payload recovery candidates
-        if: github.event_name != 'pull_request'
+        if: github.event_name == 'workflow_dispatch' && inputs.build_scope == 'full'
         run: make phase3-early-payload-probes-verify
 
       - name: Build Phase 3 Image/zImage-shaped early signal recovery candidates
-        if: github.event_name != 'pull_request'
+        if: github.event_name == 'workflow_dispatch' && inputs.build_scope == 'full'
         run: make phase3-early-signal-probes
 
       - name: Verify Phase 3 Image/zImage-shaped early signal recovery candidates
-        if: github.event_name != 'pull_request'
+        if: github.event_name == 'workflow_dispatch' && inputs.build_scope == 'full'
         run: make phase3-early-signal-probes-verify
 
       - name: Build Phase 3 display-independent early signal recovery candidates
-        if: github.event_name != 'pull_request'
+        if: github.event_name == 'workflow_dispatch' && inputs.build_scope == 'full'
         run: make phase3-display-independent-probes
 
       - name: Verify Phase 3 display-independent early signal recovery candidates
-        if: github.event_name != 'pull_request'
+        if: github.event_name == 'workflow_dispatch' && inputs.build_scope == 'full'
         run: make phase3-display-independent-probes-verify
 
       - name: Build Phase 3 stock-header kernel-swap recovery candidates
-        if: github.event_name != 'pull_request'
+        if: github.event_name == 'workflow_dispatch' && inputs.build_scope == 'full'
         run: make phase3-stock-header-kernel-swap-probes
 
       - name: Verify Phase 3 stock-header kernel-swap recovery candidates
-        if: github.event_name != 'pull_request'
+        if: github.event_name == 'workflow_dispatch' && inputs.build_scope == 'full'
         run: make phase3-stock-header-kernel-swap-probes-verify
 
       - name: Build Phase 3 stock-header Linux entry recovery candidates
-        if: github.event_name != 'pull_request'
+        if: github.event_name == 'workflow_dispatch' && inputs.build_scope == 'full'
         run: make phase3-stock-header-linux-entry
 
       - name: Verify Phase 3 stock-header Linux entry recovery candidates
-        if: github.event_name != 'pull_request'
+        if: github.event_name == 'workflow_dispatch' && inputs.build_scope == 'full'
         run: make phase3-stock-header-linux-entry-verify
 
       - name: Build Phase 3 stock-header DTB handoff recovery candidates
-        if: github.event_name != 'pull_request'
+        if: github.event_name == 'workflow_dispatch' && inputs.build_scope == 'full'
         run: make phase3-stock-header-dtb-handoff
 
       - name: Verify Phase 3 stock-header DTB handoff recovery candidates
-        if: github.event_name != 'pull_request'
+        if: github.event_name == 'workflow_dispatch' && inputs.build_scope == 'full'
         run: make phase3-stock-header-dtb-handoff-verify
 
       - name: Build Phase 3 decompressor entry reset recovery candidate
-        if: github.event_name != 'pull_request'
+        if: github.event_name == 'workflow_dispatch' && inputs.build_scope == 'full'
         run: make phase3-decompressor-entry-reset
 
       - name: Verify Phase 3 decompressor entry reset recovery candidate
-        if: github.event_name != 'pull_request'
+        if: github.event_name == 'workflow_dispatch' && inputs.build_scope == 'full'
         run: make phase3-decompressor-entry-reset-verify
 
       - name: Build Phase 3 pre-decompress_kernel reset recovery candidate
-        if: github.event_name != 'pull_request'
+        if: github.event_name == 'workflow_dispatch' && inputs.build_scope == 'full'
         run: make phase3-decompressor-pre-kernel-reset
 
       - name: Verify Phase 3 pre-decompress_kernel reset recovery candidate
-        if: github.event_name != 'pull_request'
+        if: github.event_name == 'workflow_dispatch' && inputs.build_scope == 'full'
         run: make phase3-decompressor-pre-kernel-reset-verify
 
       - name: Build Phase 3 post-decompress_kernel reset recovery candidate
-        if: github.event_name != 'pull_request'
+        if: github.event_name == 'workflow_dispatch' && inputs.build_scope == 'full'
         run: make phase3-decompressor-post-kernel-reset
 
       - name: Verify Phase 3 post-decompress_kernel reset recovery candidate
-        if: github.event_name != 'pull_request'
+        if: github.event_name == 'workflow_dispatch' && inputs.build_scope == 'full'
         run: make phase3-decompressor-post-kernel-reset-verify
 
       - name: Build Phase 3 pre-__enter_kernel reset recovery candidate
@@ -165,7 +174,7 @@ jobs:
         run: make phase3-decompressor-pre-enter-kernel-reset-verify
 
       - name: Upload Phase 3 mainline boot artifacts
-        if: github.event_name != 'pull_request'
+        if: github.event_name == 'workflow_dispatch' && inputs.build_scope == 'full'
         uses: actions/upload-artifact@v4
         with:
           name: is01-phase3-mainline-minimal-boot
@@ -286,6 +295,27 @@ jobs:
             build/phase3/decompressor-post-kernel-reset/*-boot-layout.txt
             build/phase3/decompressor-post-kernel-reset/*-boot.img
             build/phase3/decompressor-post-kernel-reset/*-recovery.img
+            build/phase3/decompressor-pre-enter-kernel-reset/SHA256SUMS
+            build/phase3/decompressor-pre-enter-kernel-reset/VERIFY-SHA256SUMS
+            build/phase3/decompressor-pre-enter-kernel-reset/VERIFY-BOOT-LAYOUT.txt
+            build/phase3/decompressor-pre-enter-kernel-reset/source-stock-compatible-boot.txt
+            build/phase3/decompressor-pre-enter-kernel-reset/source-stock-compatible-boot-layout.txt
+            build/phase3/decompressor-pre-enter-kernel-reset/decompressor-pre-enter-kernel-reset-patch.txt
+            build/phase3/decompressor-pre-enter-kernel-reset/*-slot.bin
+            build/phase3/decompressor-pre-enter-kernel-reset/*.cpio
+            build/phase3/decompressor-pre-enter-kernel-reset/*-boot-layout.txt
+            build/phase3/decompressor-pre-enter-kernel-reset/*-boot.img
+            build/phase3/decompressor-pre-enter-kernel-reset/*-recovery.img
+
+      - name: Upload Phase 3 active probe artifacts
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-artifact@v4
+        with:
+          name: is01-phase3-active-probe
+          path: |
+            build/phase3/initramfs/SHA256SUMS
+            build/phase3/initramfs/phase3-init
+            build/phase3/initramfs/initramfs.cpio
             build/phase3/decompressor-pre-enter-kernel-reset/SHA256SUMS
             build/phase3/decompressor-pre-enter-kernel-reset/VERIFY-SHA256SUMS
             build/phase3/decompressor-pre-enter-kernel-reset/VERIFY-BOOT-LAYOUT.txt
