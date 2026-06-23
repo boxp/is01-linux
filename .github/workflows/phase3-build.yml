@@ -312,10 +312,18 @@ jobs:
         run: make phase3-post-setup-machine-fdt-reset-verify
 
       - name: Build Phase 3 FDT non-NULL mdesc reset recovery candidate
+        if: github.event_name == 'workflow_dispatch' && inputs.build_scope == 'full'
         run: make phase3-fdt-mdesc-nonnull-reset
 
       - name: Verify Phase 3 FDT non-NULL mdesc reset recovery candidate
+        if: github.event_name == 'workflow_dispatch' && inputs.build_scope == 'full'
         run: make phase3-fdt-mdesc-nonnull-reset-verify
+
+      - name: Build Phase 3 pre-setup_machine_tags reset recovery candidate
+        run: make phase3-pre-setup-machine-tags-reset
+
+      - name: Verify Phase 3 pre-setup_machine_tags reset recovery candidate
+        run: make phase3-pre-setup-machine-tags-reset-verify
 
       - name: Upload Phase 3 mainline boot artifacts
         if: github.event_name == 'workflow_dispatch' && inputs.build_scope == 'full'
@@ -647,6 +655,17 @@ jobs:
             build/phase3/fdt-mdesc-nonnull-reset/*-boot-layout.txt
             build/phase3/fdt-mdesc-nonnull-reset/*-boot.img
             build/phase3/fdt-mdesc-nonnull-reset/*-recovery.img
+            build/phase3/pre-setup-machine-tags-reset/SHA256SUMS
+            build/phase3/pre-setup-machine-tags-reset/VERIFY-SHA256SUMS
+            build/phase3/pre-setup-machine-tags-reset/VERIFY-BOOT-LAYOUT.txt
+            build/phase3/pre-setup-machine-tags-reset/source-stock-compatible-boot.txt
+            build/phase3/pre-setup-machine-tags-reset/source-stock-compatible-boot-layout.txt
+            build/phase3/pre-setup-machine-tags-reset/pre-setup-machine-tags-reset-patch.txt
+            build/phase3/pre-setup-machine-tags-reset/*-slot.bin
+            build/phase3/pre-setup-machine-tags-reset/*.cpio
+            build/phase3/pre-setup-machine-tags-reset/*-boot-layout.txt
+            build/phase3/pre-setup-machine-tags-reset/*-boot.img
+            build/phase3/pre-setup-machine-tags-reset/*-recovery.img
 
       - name: Upload Phase 3 active probe artifacts
         if: github.event_name != 'pull_request'
@@ -657,17 +676,17 @@ jobs:
             build/phase3/initramfs/SHA256SUMS
             build/phase3/initramfs/phase3-init
             build/phase3/initramfs/initramfs.cpio
-            build/phase3/fdt-mdesc-nonnull-reset/SHA256SUMS
-            build/phase3/fdt-mdesc-nonnull-reset/VERIFY-SHA256SUMS
-            build/phase3/fdt-mdesc-nonnull-reset/VERIFY-BOOT-LAYOUT.txt
-            build/phase3/fdt-mdesc-nonnull-reset/source-stock-compatible-boot.txt
-            build/phase3/fdt-mdesc-nonnull-reset/source-stock-compatible-boot-layout.txt
-            build/phase3/fdt-mdesc-nonnull-reset/fdt-mdesc-nonnull-reset-patch.txt
-            build/phase3/fdt-mdesc-nonnull-reset/*-slot.bin
-            build/phase3/fdt-mdesc-nonnull-reset/*.cpio
-            build/phase3/fdt-mdesc-nonnull-reset/*-boot-layout.txt
-            build/phase3/fdt-mdesc-nonnull-reset/*-boot.img
-            build/phase3/fdt-mdesc-nonnull-reset/*-recovery.img
+            build/phase3/pre-setup-machine-tags-reset/SHA256SUMS
+            build/phase3/pre-setup-machine-tags-reset/VERIFY-SHA256SUMS
+            build/phase3/pre-setup-machine-tags-reset/VERIFY-BOOT-LAYOUT.txt
+            build/phase3/pre-setup-machine-tags-reset/source-stock-compatible-boot.txt
+            build/phase3/pre-setup-machine-tags-reset/source-stock-compatible-boot-layout.txt
+            build/phase3/pre-setup-machine-tags-reset/pre-setup-machine-tags-reset-patch.txt
+            build/phase3/pre-setup-machine-tags-reset/*-slot.bin
+            build/phase3/pre-setup-machine-tags-reset/*.cpio
+            build/phase3/pre-setup-machine-tags-reset/*-boot-layout.txt
+            build/phase3/pre-setup-machine-tags-reset/*-boot.img
+            build/phase3/pre-setup-machine-tags-reset/*-recovery.img
 
       - name: Upload Phase 3 PR probe artifacts
         if: github.event_name == 'pull_request'
@@ -678,14 +697,14 @@ jobs:
             build/phase3/initramfs/SHA256SUMS
             build/phase3/initramfs/phase3-init
             build/phase3/initramfs/initramfs.cpio
-            build/phase3/fdt-mdesc-nonnull-reset/SHA256SUMS
-            build/phase3/fdt-mdesc-nonnull-reset/VERIFY-SHA256SUMS
-            build/phase3/fdt-mdesc-nonnull-reset/VERIFY-BOOT-LAYOUT.txt
-            build/phase3/fdt-mdesc-nonnull-reset/source-stock-compatible-boot.txt
-            build/phase3/fdt-mdesc-nonnull-reset/source-stock-compatible-boot-layout.txt
-            build/phase3/fdt-mdesc-nonnull-reset/fdt-mdesc-nonnull-reset-patch.txt
-            build/phase3/fdt-mdesc-nonnull-reset/*-slot.bin
-            build/phase3/fdt-mdesc-nonnull-reset/*.cpio
-            build/phase3/fdt-mdesc-nonnull-reset/*-boot-layout.txt
-            build/phase3/fdt-mdesc-nonnull-reset/*-boot.img
-            build/phase3/fdt-mdesc-nonnull-reset/*-recovery.img
+            build/phase3/pre-setup-machine-tags-reset/SHA256SUMS
+            build/phase3/pre-setup-machine-tags-reset/VERIFY-SHA256SUMS
+            build/phase3/pre-setup-machine-tags-reset/VERIFY-BOOT-LAYOUT.txt
+            build/phase3/pre-setup-machine-tags-reset/source-stock-compatible-boot.txt
+            build/phase3/pre-setup-machine-tags-reset/source-stock-compatible-boot-layout.txt
+            build/phase3/pre-setup-machine-tags-reset/pre-setup-machine-tags-reset-patch.txt
+            build/phase3/pre-setup-machine-tags-reset/*-slot.bin
+            build/phase3/pre-setup-machine-tags-reset/*.cpio
+            build/phase3/pre-setup-machine-tags-reset/*-boot-layout.txt
+            build/phase3/pre-setup-machine-tags-reset/*-boot.img
+            build/phase3/pre-setup-machine-tags-reset/*-recovery.img
