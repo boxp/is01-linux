@@ -56,6 +56,7 @@ make phase3-mainline-boot-entry-probes-verify
 make phase3-mainline-lean-boot
 make phase3-mainline-lean-boot-verify
 make phase3-mainline-lean-recovery
+make phase3-adb-snapshot
 ```
 
 `make phase1-recovery` creates a recovery-partition candidate under `build/phase1/recovery/` for manual device testing. The repository does not run `flash_image` or write to the IS01.
@@ -79,6 +80,8 @@ make phase3-mainline-lean-recovery
 `make phase3-mainline-lean-boot` builds a smaller Phase 3 mainline candidate from the same `multi_v7_defconfig` base with obvious non-boot subsystems disabled. It keeps the same timed reboot initramfs signal and is intended as the next manual-test candidate if the boot-entry probes also stop before `/init`.
 
 `make phase3-mainline-atag-dtb-placement-probes` reuses the lean Phase 3 kernel payloads to produce manual-test recovery candidates that vary whether the kernel is booted ATAG-only, with the DTB in the Android boot image second area, or with the DTB both appended and in the second area. These candidates are intended to split early bootloader payload placement problems from DT compatible-string problems after the DT handoff variants also stop at the stock splash screen.
+
+`make phase3-adb-snapshot` captures read-only ADB diagnostics from the currently booted stock or recovery environment into `build/device-snapshots/`. Use it after restoring or booting back into a state with ADB to preserve `getprop`, `/proc/mtd`, `dmesg`, `logcat`, and related host/device context. Snapshot outputs can contain device-specific data and should not be committed.
 
 ## License
 
