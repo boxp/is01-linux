@@ -288,10 +288,18 @@ jobs:
         run: make phase3-stockslot-no-reset-boot-verify
 
       - name: Build Phase 3 setup_arch entry reset recovery candidate
+        if: github.event_name == 'workflow_dispatch' && inputs.build_scope == 'full'
         run: make phase3-setup-arch-entry-reset
 
       - name: Verify Phase 3 setup_arch entry reset recovery candidate
+        if: github.event_name == 'workflow_dispatch' && inputs.build_scope == 'full'
         run: make phase3-setup-arch-entry-reset-verify
+
+      - name: Build Phase 3 post-setup_processor reset recovery candidate
+        run: make phase3-post-setup-processor-reset
+
+      - name: Verify Phase 3 post-setup_processor reset recovery candidate
+        run: make phase3-post-setup-processor-reset-verify
 
       - name: Upload Phase 3 mainline boot artifacts
         if: github.event_name == 'workflow_dispatch' && inputs.build_scope == 'full'
@@ -590,6 +598,17 @@ jobs:
             build/phase3/setup-arch-entry-reset/*-boot-layout.txt
             build/phase3/setup-arch-entry-reset/*-boot.img
             build/phase3/setup-arch-entry-reset/*-recovery.img
+            build/phase3/post-setup-processor-reset/SHA256SUMS
+            build/phase3/post-setup-processor-reset/VERIFY-SHA256SUMS
+            build/phase3/post-setup-processor-reset/VERIFY-BOOT-LAYOUT.txt
+            build/phase3/post-setup-processor-reset/source-stock-compatible-boot.txt
+            build/phase3/post-setup-processor-reset/source-stock-compatible-boot-layout.txt
+            build/phase3/post-setup-processor-reset/post-setup-processor-reset-patch.txt
+            build/phase3/post-setup-processor-reset/*-slot.bin
+            build/phase3/post-setup-processor-reset/*.cpio
+            build/phase3/post-setup-processor-reset/*-boot-layout.txt
+            build/phase3/post-setup-processor-reset/*-boot.img
+            build/phase3/post-setup-processor-reset/*-recovery.img
 
       - name: Upload Phase 3 active probe artifacts
         if: github.event_name != 'pull_request'
@@ -600,17 +619,17 @@ jobs:
             build/phase3/initramfs/SHA256SUMS
             build/phase3/initramfs/phase3-init
             build/phase3/initramfs/initramfs.cpio
-            build/phase3/setup-arch-entry-reset/SHA256SUMS
-            build/phase3/setup-arch-entry-reset/VERIFY-SHA256SUMS
-            build/phase3/setup-arch-entry-reset/VERIFY-BOOT-LAYOUT.txt
-            build/phase3/setup-arch-entry-reset/source-stock-compatible-boot.txt
-            build/phase3/setup-arch-entry-reset/source-stock-compatible-boot-layout.txt
-            build/phase3/setup-arch-entry-reset/setup-arch-entry-reset-patch.txt
-            build/phase3/setup-arch-entry-reset/*-slot.bin
-            build/phase3/setup-arch-entry-reset/*.cpio
-            build/phase3/setup-arch-entry-reset/*-boot-layout.txt
-            build/phase3/setup-arch-entry-reset/*-boot.img
-            build/phase3/setup-arch-entry-reset/*-recovery.img
+            build/phase3/post-setup-processor-reset/SHA256SUMS
+            build/phase3/post-setup-processor-reset/VERIFY-SHA256SUMS
+            build/phase3/post-setup-processor-reset/VERIFY-BOOT-LAYOUT.txt
+            build/phase3/post-setup-processor-reset/source-stock-compatible-boot.txt
+            build/phase3/post-setup-processor-reset/source-stock-compatible-boot-layout.txt
+            build/phase3/post-setup-processor-reset/post-setup-processor-reset-patch.txt
+            build/phase3/post-setup-processor-reset/*-slot.bin
+            build/phase3/post-setup-processor-reset/*.cpio
+            build/phase3/post-setup-processor-reset/*-boot-layout.txt
+            build/phase3/post-setup-processor-reset/*-boot.img
+            build/phase3/post-setup-processor-reset/*-recovery.img
 
       - name: Upload Phase 3 PR probe artifacts
         if: github.event_name == 'pull_request'
@@ -621,14 +640,14 @@ jobs:
             build/phase3/initramfs/SHA256SUMS
             build/phase3/initramfs/phase3-init
             build/phase3/initramfs/initramfs.cpio
-            build/phase3/setup-arch-entry-reset/SHA256SUMS
-            build/phase3/setup-arch-entry-reset/VERIFY-SHA256SUMS
-            build/phase3/setup-arch-entry-reset/VERIFY-BOOT-LAYOUT.txt
-            build/phase3/setup-arch-entry-reset/source-stock-compatible-boot.txt
-            build/phase3/setup-arch-entry-reset/source-stock-compatible-boot-layout.txt
-            build/phase3/setup-arch-entry-reset/setup-arch-entry-reset-patch.txt
-            build/phase3/setup-arch-entry-reset/*-slot.bin
-            build/phase3/setup-arch-entry-reset/*.cpio
-            build/phase3/setup-arch-entry-reset/*-boot-layout.txt
-            build/phase3/setup-arch-entry-reset/*-boot.img
-            build/phase3/setup-arch-entry-reset/*-recovery.img
+            build/phase3/post-setup-processor-reset/SHA256SUMS
+            build/phase3/post-setup-processor-reset/VERIFY-SHA256SUMS
+            build/phase3/post-setup-processor-reset/VERIFY-BOOT-LAYOUT.txt
+            build/phase3/post-setup-processor-reset/source-stock-compatible-boot.txt
+            build/phase3/post-setup-processor-reset/source-stock-compatible-boot-layout.txt
+            build/phase3/post-setup-processor-reset/post-setup-processor-reset-patch.txt
+            build/phase3/post-setup-processor-reset/*-slot.bin
+            build/phase3/post-setup-processor-reset/*.cpio
+            build/phase3/post-setup-processor-reset/*-boot-layout.txt
+            build/phase3/post-setup-processor-reset/*-boot.img
+            build/phase3/post-setup-processor-reset/*-recovery.img
