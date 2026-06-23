@@ -344,10 +344,18 @@ jobs:
         run: make phase3-mdesc-null-reset-verify
 
       - name: Build Phase 3 DECKARD DT mdesc reset recovery candidate
+        if: github.event_name == 'workflow_dispatch' && inputs.build_scope == 'full'
         run: make phase3-deckard-dt-mdesc-reset
 
       - name: Verify Phase 3 DECKARD DT mdesc reset recovery candidate
+        if: github.event_name == 'workflow_dispatch' && inputs.build_scope == 'full'
         run: make phase3-deckard-dt-mdesc-reset-verify
+
+      - name: Build Phase 3 FDT verify OK reset recovery candidate
+        run: make phase3-fdt-verify-ok-reset
+
+      - name: Verify Phase 3 FDT verify OK reset recovery candidate
+        run: make phase3-fdt-verify-ok-reset-verify
 
       - name: Upload Phase 3 mainline boot artifacts
         if: github.event_name == 'workflow_dispatch' && inputs.build_scope == 'full'
@@ -723,6 +731,17 @@ jobs:
             build/phase3/deckard-dt-mdesc-reset/*-boot-layout.txt
             build/phase3/deckard-dt-mdesc-reset/*-boot.img
             build/phase3/deckard-dt-mdesc-reset/*-recovery.img
+            build/phase3/fdt-verify-ok-reset/SHA256SUMS
+            build/phase3/fdt-verify-ok-reset/VERIFY-SHA256SUMS
+            build/phase3/fdt-verify-ok-reset/VERIFY-BOOT-LAYOUT.txt
+            build/phase3/fdt-verify-ok-reset/source-stock-compatible-boot.txt
+            build/phase3/fdt-verify-ok-reset/source-stock-compatible-boot-layout.txt
+            build/phase3/fdt-verify-ok-reset/fdt-verify-ok-reset-patch.txt
+            build/phase3/fdt-verify-ok-reset/*-slot.bin
+            build/phase3/fdt-verify-ok-reset/*.cpio
+            build/phase3/fdt-verify-ok-reset/*-boot-layout.txt
+            build/phase3/fdt-verify-ok-reset/*-boot.img
+            build/phase3/fdt-verify-ok-reset/*-recovery.img
 
       - name: Upload Phase 3 active probe artifacts
         if: github.event_name != 'pull_request'
@@ -733,17 +752,17 @@ jobs:
             build/phase3/initramfs/SHA256SUMS
             build/phase3/initramfs/phase3-init
             build/phase3/initramfs/initramfs.cpio
-            build/phase3/deckard-dt-mdesc-reset/SHA256SUMS
-            build/phase3/deckard-dt-mdesc-reset/VERIFY-SHA256SUMS
-            build/phase3/deckard-dt-mdesc-reset/VERIFY-BOOT-LAYOUT.txt
-            build/phase3/deckard-dt-mdesc-reset/source-stock-compatible-boot.txt
-            build/phase3/deckard-dt-mdesc-reset/source-stock-compatible-boot-layout.txt
-            build/phase3/deckard-dt-mdesc-reset/deckard-dt-mdesc-reset-patch.txt
-            build/phase3/deckard-dt-mdesc-reset/*-slot.bin
-            build/phase3/deckard-dt-mdesc-reset/*.cpio
-            build/phase3/deckard-dt-mdesc-reset/*-boot-layout.txt
-            build/phase3/deckard-dt-mdesc-reset/*-boot.img
-            build/phase3/deckard-dt-mdesc-reset/*-recovery.img
+            build/phase3/fdt-verify-ok-reset/SHA256SUMS
+            build/phase3/fdt-verify-ok-reset/VERIFY-SHA256SUMS
+            build/phase3/fdt-verify-ok-reset/VERIFY-BOOT-LAYOUT.txt
+            build/phase3/fdt-verify-ok-reset/source-stock-compatible-boot.txt
+            build/phase3/fdt-verify-ok-reset/source-stock-compatible-boot-layout.txt
+            build/phase3/fdt-verify-ok-reset/fdt-verify-ok-reset-patch.txt
+            build/phase3/fdt-verify-ok-reset/*-slot.bin
+            build/phase3/fdt-verify-ok-reset/*.cpio
+            build/phase3/fdt-verify-ok-reset/*-boot-layout.txt
+            build/phase3/fdt-verify-ok-reset/*-boot.img
+            build/phase3/fdt-verify-ok-reset/*-recovery.img
 
       - name: Upload Phase 3 PR probe artifacts
         if: github.event_name == 'pull_request'
@@ -754,14 +773,14 @@ jobs:
             build/phase3/initramfs/SHA256SUMS
             build/phase3/initramfs/phase3-init
             build/phase3/initramfs/initramfs.cpio
-            build/phase3/deckard-dt-mdesc-reset/SHA256SUMS
-            build/phase3/deckard-dt-mdesc-reset/VERIFY-SHA256SUMS
-            build/phase3/deckard-dt-mdesc-reset/VERIFY-BOOT-LAYOUT.txt
-            build/phase3/deckard-dt-mdesc-reset/source-stock-compatible-boot.txt
-            build/phase3/deckard-dt-mdesc-reset/source-stock-compatible-boot-layout.txt
-            build/phase3/deckard-dt-mdesc-reset/deckard-dt-mdesc-reset-patch.txt
-            build/phase3/deckard-dt-mdesc-reset/*-slot.bin
-            build/phase3/deckard-dt-mdesc-reset/*.cpio
-            build/phase3/deckard-dt-mdesc-reset/*-boot-layout.txt
-            build/phase3/deckard-dt-mdesc-reset/*-boot.img
-            build/phase3/deckard-dt-mdesc-reset/*-recovery.img
+            build/phase3/fdt-verify-ok-reset/SHA256SUMS
+            build/phase3/fdt-verify-ok-reset/VERIFY-SHA256SUMS
+            build/phase3/fdt-verify-ok-reset/VERIFY-BOOT-LAYOUT.txt
+            build/phase3/fdt-verify-ok-reset/source-stock-compatible-boot.txt
+            build/phase3/fdt-verify-ok-reset/source-stock-compatible-boot-layout.txt
+            build/phase3/fdt-verify-ok-reset/fdt-verify-ok-reset-patch.txt
+            build/phase3/fdt-verify-ok-reset/*-slot.bin
+            build/phase3/fdt-verify-ok-reset/*.cpio
+            build/phase3/fdt-verify-ok-reset/*-boot-layout.txt
+            build/phase3/fdt-verify-ok-reset/*-boot.img
+            build/phase3/fdt-verify-ok-reset/*-recovery.img
