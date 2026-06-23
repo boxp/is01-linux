@@ -376,10 +376,18 @@ jobs:
         run: make phase3-fdt-magic-reset-verify
 
       - name: Build Phase 3 ATAG_CORE magic reset recovery candidate
+        if: github.event_name == 'workflow_dispatch' && inputs.build_scope == 'full'
         run: make phase3-atag-core-magic-reset
 
       - name: Verify Phase 3 ATAG_CORE magic reset recovery candidate
+        if: github.event_name == 'workflow_dispatch' && inputs.build_scope == 'full'
         run: make phase3-atag-core-magic-reset-verify
+
+      - name: Build Phase 3 MACH_DECKARD machine type reset recovery candidate
+        run: make phase3-machine-type-deckard-reset
+
+      - name: Verify Phase 3 MACH_DECKARD machine type reset recovery candidate
+        run: make phase3-machine-type-deckard-reset-verify
 
       - name: Upload Phase 3 mainline boot artifacts
         if: github.event_name == 'workflow_dispatch' && inputs.build_scope == 'full'
@@ -799,6 +807,17 @@ jobs:
             build/phase3/atag-core-magic-reset/*-boot-layout.txt
             build/phase3/atag-core-magic-reset/*-boot.img
             build/phase3/atag-core-magic-reset/*-recovery.img
+            build/phase3/machine-type-deckard-reset/SHA256SUMS
+            build/phase3/machine-type-deckard-reset/VERIFY-SHA256SUMS
+            build/phase3/machine-type-deckard-reset/VERIFY-BOOT-LAYOUT.txt
+            build/phase3/machine-type-deckard-reset/source-stock-compatible-boot.txt
+            build/phase3/machine-type-deckard-reset/source-stock-compatible-boot-layout.txt
+            build/phase3/machine-type-deckard-reset/machine-type-deckard-reset-patch.txt
+            build/phase3/machine-type-deckard-reset/*-slot.bin
+            build/phase3/machine-type-deckard-reset/*.cpio
+            build/phase3/machine-type-deckard-reset/*-boot-layout.txt
+            build/phase3/machine-type-deckard-reset/*-boot.img
+            build/phase3/machine-type-deckard-reset/*-recovery.img
 
       - name: Upload Phase 3 active probe artifacts
         if: github.event_name != 'pull_request'
@@ -809,17 +828,17 @@ jobs:
             build/phase3/initramfs/SHA256SUMS
             build/phase3/initramfs/phase3-init
             build/phase3/initramfs/initramfs.cpio
-            build/phase3/atag-core-magic-reset/SHA256SUMS
-            build/phase3/atag-core-magic-reset/VERIFY-SHA256SUMS
-            build/phase3/atag-core-magic-reset/VERIFY-BOOT-LAYOUT.txt
-            build/phase3/atag-core-magic-reset/source-stock-compatible-boot.txt
-            build/phase3/atag-core-magic-reset/source-stock-compatible-boot-layout.txt
-            build/phase3/atag-core-magic-reset/atag-core-magic-reset-patch.txt
-            build/phase3/atag-core-magic-reset/*-slot.bin
-            build/phase3/atag-core-magic-reset/*.cpio
-            build/phase3/atag-core-magic-reset/*-boot-layout.txt
-            build/phase3/atag-core-magic-reset/*-boot.img
-            build/phase3/atag-core-magic-reset/*-recovery.img
+            build/phase3/machine-type-deckard-reset/SHA256SUMS
+            build/phase3/machine-type-deckard-reset/VERIFY-SHA256SUMS
+            build/phase3/machine-type-deckard-reset/VERIFY-BOOT-LAYOUT.txt
+            build/phase3/machine-type-deckard-reset/source-stock-compatible-boot.txt
+            build/phase3/machine-type-deckard-reset/source-stock-compatible-boot-layout.txt
+            build/phase3/machine-type-deckard-reset/machine-type-deckard-reset-patch.txt
+            build/phase3/machine-type-deckard-reset/*-slot.bin
+            build/phase3/machine-type-deckard-reset/*.cpio
+            build/phase3/machine-type-deckard-reset/*-boot-layout.txt
+            build/phase3/machine-type-deckard-reset/*-boot.img
+            build/phase3/machine-type-deckard-reset/*-recovery.img
 
       - name: Upload Phase 3 PR probe artifacts
         if: github.event_name == 'pull_request'
@@ -830,14 +849,14 @@ jobs:
             build/phase3/initramfs/SHA256SUMS
             build/phase3/initramfs/phase3-init
             build/phase3/initramfs/initramfs.cpio
-            build/phase3/atag-core-magic-reset/SHA256SUMS
-            build/phase3/atag-core-magic-reset/VERIFY-SHA256SUMS
-            build/phase3/atag-core-magic-reset/VERIFY-BOOT-LAYOUT.txt
-            build/phase3/atag-core-magic-reset/source-stock-compatible-boot.txt
-            build/phase3/atag-core-magic-reset/source-stock-compatible-boot-layout.txt
-            build/phase3/atag-core-magic-reset/atag-core-magic-reset-patch.txt
-            build/phase3/atag-core-magic-reset/*-slot.bin
-            build/phase3/atag-core-magic-reset/*.cpio
-            build/phase3/atag-core-magic-reset/*-boot-layout.txt
-            build/phase3/atag-core-magic-reset/*-boot.img
-            build/phase3/atag-core-magic-reset/*-recovery.img
+            build/phase3/machine-type-deckard-reset/SHA256SUMS
+            build/phase3/machine-type-deckard-reset/VERIFY-SHA256SUMS
+            build/phase3/machine-type-deckard-reset/VERIFY-BOOT-LAYOUT.txt
+            build/phase3/machine-type-deckard-reset/source-stock-compatible-boot.txt
+            build/phase3/machine-type-deckard-reset/source-stock-compatible-boot-layout.txt
+            build/phase3/machine-type-deckard-reset/machine-type-deckard-reset-patch.txt
+            build/phase3/machine-type-deckard-reset/*-slot.bin
+            build/phase3/machine-type-deckard-reset/*.cpio
+            build/phase3/machine-type-deckard-reset/*-boot-layout.txt
+            build/phase3/machine-type-deckard-reset/*-boot.img
+            build/phase3/machine-type-deckard-reset/*-recovery.img
